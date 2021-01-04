@@ -1,20 +1,19 @@
 <!--
-	title: "SERIES: React Native - Step by Step - Working with Typescript"
-	description: "In the first part of our React Native - Step by Step series we will look at how to start a new project with Expo and Typescript, configure our linter and talk a bit about the how and why. Grab your coffee, relax and strap in for a fascinating journey."
+	title: "SERIES: React Native (Step by Step) - Working with Typescript"
+	description: "In the first part of our React Native (Step by Step) series, we will look at how to start a new project with Expo and Typescript, configure our linter and talk a bit about the how and why. Grab your coffee, relax and strap in for a fascinating journey."
 	author: "Konrad Abe (/)AllBitsEqual)"
 	published_at: 2021-01-04 08:00:00
-	// header_source: (Link, falls du den Header von einer Seite hast)
-	header_image: header.jpg
+	header_image: "https://i.imgur.com/UYSyTVN.jpg"
 	categories: "react-native typescript best-practise series"
-	canonical_url:
+	canonical_url: "https://allbitsequal.medium.com/series-react-native-step-by-step-working-with-typescript-and-linting-3961c4226793"
+    series: "React Native (Step by Step)"
 	language: en
 -->
-# SERIES: React Native - Step by Step - Working with Typescript and Linting
+# SERIES: React Native (Step by Step) - Working with Typescript and Linting
 
-**In the first part of our *React Native - Step by Step* series we will look at how to start a new project with Expo and Typescript, configure our linter and talk a bit about the how and why. Grab your coffee, relax and strap in for a fascinating journey.**
+**In the first part of our *React Native (Step by Step)* series, we will look at how to start a new project with Expo and Typescript, configure our linter and talk a bit about the how and why. Grab your coffee, relax and strap in for a fascinating journey.**
 
-<!-- TODO: HERO IMAGE -->
-
+![](https://i.imgur.com/UYSyTVN.jpg)
 
 ## Typescript - WHY?
 There are a lot of strong sentiments and feelings around typescript that go in both directions. The die-hard fans swear by the fact that thanks to typescript, their code is now less buggy, more stable, easier to reason about and easier to extend, share or collaborate on. On the other side of the ring, we have those who deem typescript a nuisance, something that creates a lot of unnecessary overhead and in some cases even duplication while not actually fixing any issues at runtime.
@@ -38,13 +37,17 @@ Starting a new project could not be easier. As in earlier projects, we will agai
 
 I assume you have worked with NPM and GitHub in the past and at least know the basics. To get started with React Native using EXPO you need to install a command-line tool called expo-cli and it is recommended to install it globally using the -g flag.
 At the time of writing, I'm using expo-cli@4.0.17 but there won't be any breaking changes for later versions of 4.x when you are reading this in the future.
-```
+
+```bash
 npm install -g expo-cli
-```  
-Using Expo to initialise our new project, we have to typescript templates to choose from. For our case, we will build everything from scratch step by step so we will choose the empty typescript template from the [managed workflow](https://docs.expo.io/introduction/managed-vs-bare/). The following command, when entered from your desired location via command line, will then create a new folder by the name you provide in the init and start populating it with the template files you choose from the following menu.
 ```
+
+Using Expo to initialise our new project, we have to typescript templates to choose from. For our case, we will build everything from scratch step by step so we will choose the empty typescript template from the [managed workflow](https://docs.expo.io/introduction/managed-vs-bare/). The following command, when entered from your desired location via command line, will then create a new folder by the name you provide in the init and start populating it with the template files you choose from the following menu.
+
+```bash
 expo init yourProjectName
 ```
+
 ![](https://i.imgur.com/ZY4lyX1.png "test")
 
 It might take a moment for the expo-cli to download and install all dependencies from npm but once it's done, you can simply `cd yourProjectName` into the new folder and start working.
@@ -60,7 +63,8 @@ While it might not feel like we did a lot so far, I can only recommend syncing y
 
 ### Did it work?
 If you want to make sure, everything so far is working as intended, simply enter the following line into your command-line tool while located at the project root and you should see the following page opened in your default browser. To check the actual mobile app, you can start an emulator from the left-hand menu, for mac users with Xcode, the iOS simulator should work best.
-```
+
+```bash
 npm start
 ```
 
@@ -81,7 +85,8 @@ This is usually the first thing I copy from my other projects because it makes w
 Here's my current config, feel free to add it to your projects too.
 
 **File:** /.editorconfig
-```
+
+```json
 root = true
 
 [*]
@@ -106,7 +111,8 @@ We will also be using Prettier to automatically fix the easier formatting stuff 
 
 #### eslint
 We are going to use the Airbnb ESLint setup and there are multiple necessary packages. Fortunately, eslint-config-airbnb exists and makes things easy. You only need to run:
-```
+
+```bash
 npx install-peerdeps --dev eslint-config-airbnb
 ```
 
@@ -120,13 +126,15 @@ This will install the following packages to your projects dev dependencies:
 
 #### linting typescript
 To work with Typescript, we need to install the libraries that will enable us to lint Typescript code as well.
-```
+
+```bash
 npm i --save-dev @typescript-eslint/parser @typescript-eslint/eslint-plugin
 ```
 
 #### prettier linting
-The installation of Prettier is similarly easy to that of Typescript. We need a config and a plugin 
-```
+The installation of Prettier is similarly easy to that of Typescript. We need a config and a plugin.
+
+```bash
 npm i --save-dev prettier eslint-config-prettier eslint-plugin-prettier
 ```
 
@@ -142,7 +150,8 @@ To get a basic setup, you could simply install eslint and run `eslint --init` to
 Let's have a look at our finished config file.
 
 **File:** /.eslintrc
-```
+
+```json
 {
   "extends": [
     "airbnb",
@@ -205,6 +214,7 @@ Let's have a look at our finished config file.
   }
 }
 ```
+
 Let's have a quick look at the different parts of our config file:
 * **"extends"** => our presets of rules
 * **"parser"** => points at our typescript parser
@@ -216,7 +226,8 @@ The last thing we need to add is our .prettierrc config file. There are only a f
 
 
 **File:** /.prettierrc
-```
+
+```json
 {
   "singleQuote": true,
   "trailingComma": "es5",
@@ -224,10 +235,11 @@ The last thing we need to add is our .prettierrc config file. There are only a f
 }
 ```
 
-If you want to be adamant about clean code in your repository, you could go one step further and run the linter before accepting new code as a commit. I'm not working with a pre-commit hook that completely prevents pushing code with linting errors into the repository. This might be the right thing for you and I can only recommend to you to have a look at husky for this but as I'm doing a lot of prototyping in my projects and my workflow includes code reviews before I merge anything into my develop or main branches, I'm not restricting this.
+If you want to be adamant about clean code in your repository, you could go one step further and run the linter before accepting new code as a commit. I'm not working with a pre-commit hook that completely prevents pushing code with linting errors into the repository. This might be the right thing for you and I can only recommend to you to have a look at husky for this but as I'm doing a lot of prototyping in my projects and my workflow includes code reviews before I merge anything into my development or main branches, I'm not restricting this.
 
 To run our linter and make use of the prettier auto code corrections, we need to add two new scripts to our package.json.
-```
+
+```json
 "scripts": {
   ...
   "lint": "tsc --noEmit && eslint --ext .js,.jsx,.ts,.tsx ./ || true",
@@ -238,7 +250,7 @@ To run our linter and make use of the prettier auto code corrections, we need to
 
 Both commands run the typescript compiler without making changes to the code (tsc --noEmit) and then run eslint on all matching files starting at root level. 
 
-One word of warning/advice on my scripts here. I'm piping all erroneous output away (|| true) because the script will return an error when running and finding linting errors. This is an expected behaviour and very useful when you chain commands. Do not add "|| true" at the end, if you plan to use these scripts in combination with others.  
+One word of warning/advice on my scripts here. I'm piping all erroneous output away (|| true) because the script will return an error when running and finding linting errors. This is the expected behaviour and very useful when you chain commands. Do not add "|| true" at the end, if you plan to use these scripts in combination with others.  
 I personally do not like to see 10 lines of useless "npm ERR!" every time I run my linter. I want to look at my linting errors in my terminal and determine where I need to fix stuff so this console output has no value to me in this scenario.
 
 ![](https://i.imgur.com/8alvUed.png)
