@@ -15,6 +15,8 @@
 
 ![](https://i.imgur.com/UYSyTVN.jpg)
 
+_As always, you will find the finished code linked on GitHub at the end of the article._
+
 ## Typescript - WHY?
 There are a lot of strong sentiments and feelings around typescript that go in both directions. The die-hard fans swear by the fact that thanks to typescript, their code is now less buggy, more stable, easier to reason about and easier to extend, share or collaborate on. On the other side of the ring, we have those who deem typescript a nuisance, something that creates a lot of unnecessary overhead and in some cases even duplication while not actually fixing any issues at runtime.
 
@@ -275,3 +277,5 @@ The remaining error is a missing return type so let's fix this real quick and go
 We've started a new project with a typescript template, added linting and eslint typescript support and adjusted our rules as we seemed fit. We also included Prettier's auto fixing ability and reached the goal of today's journey.
 
 In our next sessions, we will have a look at some basic solutions for navigation, state management and project file structure.
+
+Here is the promised [link to the (Pre-)Release tag on Github](https://github.com/AllBitsEqual/expo-ts-starter/tree/v0.1.0).
