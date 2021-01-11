@@ -13,9 +13,13 @@
 
 **In the first part of our *React Native (Step by Step)* series, we will look at how to start a new project with Expo and Typescript, configure our linter and talk a bit about the how and why. Grab your coffee, relax and strap in for a fascinating journey.**
 
-![](https://i.imgur.com/UYSyTVN.jpg)
-
 _As always, you will find the finished code linked on GitHub at the end of the article._
+
+**SERIES: React Native (Step by Step)**  
+1) => **you are here** <=
+2) [React Redux + Toolkit with Typescript](https://allbitsequal.medium.com/series-react-native-step-by-step-react-redux-toolkit-with-typescript-4818504bba13)
+
+![](https://i.imgur.com/UYSyTVN.jpg)
 
 ## Typescript - WHY?
 There are a lot of strong sentiments and feelings around typescript that go in both directions. The die-hard fans swear by the fact that thanks to typescript, their code is now less buggy, more stable, easier to reason about and easier to extend, share or collaborate on. On the other side of the ring, we have those who deem typescript a nuisance, something that creates a lot of unnecessary overhead and in some cases even duplication while not actually fixing any issues at runtime.
