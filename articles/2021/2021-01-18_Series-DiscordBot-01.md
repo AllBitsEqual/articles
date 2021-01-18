@@ -3,15 +3,17 @@
 	description: "Discord bots can be written in Javascript or Python and getting your first bot up and running is a great way to practice your Vanilla JS skills and have some fun. We will cover the whole process of registering the bot with Discord, a basic setup and how to bring it to your server."
 	author: "Konrad Abe (AllBitsEqual)"
 	published_at: 2021-01-18 08:00:00
-	header_image: ""
+	header_image: "https://i.imgur.com/bYXbzEg.jpg"
 	categories: "javascript discord discordjs bot chatbot series"
-	canonical_url: ""
+	canonical_url: "https://allbitsequal.medium.com/build-a-bot-discordjs-javascript-chatbots-made-easy-bb31f6738a85"
 	series: "Build A Bot (DiscordJS)"
 	language: en
 -->
 # Build A Bot (DiscordJS) - Javascript Chatbots made easy
 
 Discord bots can be written in Javascript or Python and getting your first bot up and running is a great way to practice your Vanilla JS skills and have some fun. We will cover the whole process of registering the bot with Discord, a basic setup and how to bring it to your server.
+
+![](https://i.imgur.com/bYXbzEg.jpg)
 
 ## Prerequisites
 There is not much that you need to start writing a bot for Discord using Javascript and while you could theoretically compose everything with copy and paste code snippets written by other people, I highly suggest some prior Javascript knowledge. Here is what you need apart from that.
@@ -33,7 +35,7 @@ On the following page, you can add a short description, avatar image and see you
 
 ![](https://i.imgur.com/3GXNkyG.png)
 
-Use the left sidebar navigation to go to the "Bot" section and click "Add Bot" to assig a bot user to your newly created application.
+Use the left sidebar navigation to go to the "Bot" section and click "Add Bot" to assign a bot user to your newly created application.
 
 ![](https://i.imgur.com/33p9pLt.png)
 
@@ -49,7 +51,7 @@ From the first box, select the "bot" option. This will open up the second box b
 
 Copy the URL that has been generated with our bot ID and permissions when you are done selecting them. Your selection is part of the URL, encoded as the number after the permissions attribute.
 
-When you enter this URL in your web browser of choice and are logged in with your discord user, you can pick the server you want to add the bot to (where you have the "manage server" permission) and "Authorize" it.
+When you enter this URL in your web browser of choice and are logged in with your discord user, you can pick the server you want to add the bot to (where you have the "manage server" permission) and "Authorise" it.
 
 ![](https://i.imgur.com/BhkWtBU.png)
 
@@ -68,7 +70,7 @@ This project includes DiscordJS, the library we will be using for most of our ac
 
 As you need to store your super secure and private token somewhere, I also included the dotenv package that allows you to store and use untracked/unversioned environmental variables within your project. This will be the first thing to do after copying the repository above.
 
-To install the included packages, run ```npm install``` at the root of your new project. Then add a .env file at the root level of your project (which is on the ignore list of our .gitignore file) and add the following line using the token you got from the Discord Developer Portal on the Bot section to replace "7074lly-n07-my-70k3n".
+To install the included packages, run `npm install` at the root of your new project. Then add a .env file at the root level of your project (which is on the ignore list of our .gitignore file) and add the following line using the token you got from the Discord Developer Portal on the Bot section to replace "7074lly-n07-my-70k3n".
 
 ```bash
 TOKEN=7074lly-n07-my-70k3n
@@ -76,7 +78,7 @@ TOKEN=7074lly-n07-my-70k3n
 
 ## The initial code, diving into DiscordJS
 
-Without changing a single line of code, you could now start the bot by either calling ```node src/index.js``` to execute the file or run the script from the package.json file ```npm start``` which basically does the same.
+Without changing a single line of code, you could now start the bot by either calling `node src/index.js` to execute the file or run the script from the package.json file `npm start` which basically does the same.
 
 You will now see the bot as online on your server and your console should show this line with your bot's name and ID number.
 
