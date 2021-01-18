@@ -62,13 +62,13 @@ If you check your selected server now, you should see a message that your bot ju
 ![](https://i.imgur.com/QntLb1I.png)
 
 ## Project Setup
-To get you started, I have prepared a small setup with 2 simple commands and the basics to start your development with the most useful default tools. You can grab the code from my repository at this tag on GitHub.
+To get you started, I have prepared a small setup with  A few simple commands and the basics to start your development with the most useful default tools. You can grab the code from my repository at this tag on GitHub.
 
-This project includes DiscordJS, the library we will be using for most of our actions and functionality on Discord, as well as a basic linter setup because who does not like clean and checked code.
+This project includes DiscordJS, the library we will be using for most of our actions and functionality on Discord, as well as a basic linter/prettier setup because who does not like clean, formatted and checked code.
 
-As you need to store your super secure and private token somewhere, I also included a dotenv package that allows you to store and use unversioned environmental variables within your project. This will be the first thing to do after copying the repository above.
+As you need to store your super secure and private token somewhere, I also included the dotenv package that allows you to store and use unversioned environmental variables within your project. This will be the first thing to do after copying the repository above.
 
-To install the included packages, run ```npm install``` at the root of your new project. Then add a .env file at root level of your project and add the following line using the token you got from the Discord Developer Portal on the Bot section to replace "my-token".
+To install the included packages, run ```npm install``` at the root of your new project. Then add a .env file at root level of your project (which is on the ignore list of our .gitignore file) and add the following line using the token you got from the Discord Developer Portal on the Bot section to replace "my-token".
 
 ```bash
 TOKEN=my-token
@@ -90,22 +90,37 @@ You will now see the bot as online on your server and your console should show t
 
 > *A short side note: If you plan to configure and test the bot on a regular server with other users, it is advised to create an admin/mod only chat and to add the bot directly via channel permissions. That way your testing of commands will not annoy regular users.*
 
-```
+Let's break down the file src/index.js to guide you through be basics. 
+
+```javascript
 require('dotenv').config()
 const Discord = require('discord.js')
 const config = require('../config.json')
 
-const bot = new Discord.Client()
 const { TOKEN } = process.env
-
 const { prefix, name } = config
 
+const bot = new Discord.Client()
+```
+
+We are requiring the discord js and dotenv packages and import our config.json File. After getting a few values via destructuring of the .env and config.json files, we initialise a new Bot object.
+
+
+```javascript
 bot.login(TOKEN)
 
 bot.once('ready', () => {
     console.info(`Logged in as ${bot.user.tag}!`) // eslint-disable-line no-console
 })
+```
 
+After handing our token to the login function on our Bot object, we add a special "once" Event listener for the ready event to notify us when the bot successfully launched and logged in. Our linter doesn't like the last line but he will have to endure this with ignorance due to our line disable comment.
+
+The next thing to do is to tell the bot what he is supposed to do with messages he "reads" in channels he has access to. For this we added another event listener waiting for events of the type "message". 
+
+> We're currently using a number of if/else statements. This is not the optimal way but enough for today. In our next session I will explain the concept of a command handler in greater detail. 
+
+```javascript
 bot.on('message', message => {
     // ping command without a prefix (exact match)
     if (message.content === 'ping') {
@@ -140,9 +155,25 @@ bot.on('message', message => {
         }
     }
 })
-
 ```
 
+This might be a bit more to digest but I've tried to add a few really basic scenarios to give you a broad understanding of what we have access to.
+
+### ping
+The first part listens to all messages that are exactly "ping" with nothing more. The bot reacts to those by sending a reply to the message author by using the reply function. It then calculates the time passed between the message sent timestamp (createdAt) and the current time in milliseconds and posts this in his reply as a pong. 
+By using `return` here, we skip all the other code since our condition is met already. Time's a wastin. 
+
+### check the prefix
+The next line simply checks all other messages for the prefix we've defined in the config.json, which is currently set to "!". All messages that don't have our prefix (or were "ping") can be ignored.
+
+### !who am I
+If the. It encounters a message matching (exactly) `!who`, he will answer with a short message Containing his own name and a flair text we've written.
+
+### !whois asking? 
+The last command I've included is a bit more sophisticated. We are checking for messages starting with `!whois` and check tHe rest of the message for a user mention (@username). If a user is found, the bot will answer with a short message containing the user name and date of the user creation. If no user is mentioned or no text is entered after the command, the bot will do the same for the message author.
+
+## wrapping up
+I think we've covered a lot of ground here today and 
 _  
 
 _  
