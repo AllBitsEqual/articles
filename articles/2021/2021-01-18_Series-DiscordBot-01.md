@@ -60,3 +60,103 @@ You will see the list of permissions you just created and need to confirm it. Wh
 If you check your selected server now, you should see a message that your bot just joined the server.
 
 ![](https://i.imgur.com/QntLb1I.png)
+
+## Project Setup
+To get you started, I have prepared a small setup with 2 simple commands and the basics to start your development with the most useful default tools. You can grab the code from my repository at this tag on GitHub.
+
+This project includes DiscordJS, the library we will be using for most of our actions and functionality on Discord, as well as a basic linter setup because who does not like clean and checked code.
+
+As you need to store your super secure and private token somewhere, I also included a dotenv package that allows you to store and use unversioned environmental variables within your project. This will be the first thing to do after copying the repository above.
+
+To install the included packages, run ```npm install``` at the root of your new project. Then add a .env file at root level of your project and add the following line using the token you got from the Discord Developer Portal on the Bot section to replace "my-token".
+
+```bash
+TOKEN=my-token
+```
+
+## The initial code, diving into DiscordJS
+
+
+
+
+
+
+
+Without changing a single line of code, you could now start the bot by either calling ``` node src/index.js``` to execute the file or run the script from the package.json file ```npm start``` which basically does the same.
+
+You will now see the bot as online on your server and your console should show this line with your bot's name and ID number.
+
+![](https://i.imgur.com/Gp6LmgM.png)
+
+> *A short side note: If you plan to configure and test the bot on a regular server with other users, it is advised to create an admin/mod only chat and to add the bot directly via channel permissions. That way your testing of commands will not annoy regular users.*
+
+```
+require('dotenv').config()
+const Discord = require('discord.js')
+const config = require('../config.json')
+
+const bot = new Discord.Client()
+const { TOKEN } = process.env
+
+const { prefix, name } = config
+
+bot.login(TOKEN)
+
+bot.once('ready', () => {
+    console.info(`Logged in as ${bot.user.tag}!`) // eslint-disable-line no-console
+})
+
+bot.on('message', message => {
+    // ping command without a prefix (exact match)
+    if (message.content === 'ping') {
+        const delay = Date.now() - message.createdAt
+        message.reply(`**pong** *(delay: ${delay}ms)*`)
+        return
+    }
+
+    // ignore all other messages without our prefix
+    if (!message.content.startsWith(prefix)) return
+
+    // let the bot introduce itself (exact match)
+    if (message.content === `${prefix}who`) {
+        message.channel.send(`My name is ${name} and I was created to serve!`)
+        return
+    }
+
+    // user info, either call with valid user name or default to info about message author
+    if (message.content.startsWith(`${prefix}whois`)) {
+        // if the message contains a mention, pick the first as the target
+        if (message.mentions.users.size) {
+            const taggedUser = message.mentions.users.first()
+            const createdString = `${taggedUser.createdAt.toLocaleDateString()} - ${taggedUser.createdAt.toLocaleTimeString()}`
+            message.channel.send(
+                `User Info: ${taggedUser.username}  (account created: ${createdString})`,
+            )
+        } else {
+            // default to sender if no user is mentioned
+            const { author } = message
+            const createdString = `${author.createdAt.toLocaleDateString()} - ${author.createdAt.toLocaleTimeString()}`
+            message.reply(`User Self Info: ${author.username} (account created: ${createdString})`)
+        }
+    }
+})
+
+```
+
+_  
+
+_  
+
+_  
+
+_  
+
+_  
+
+_  
+
+_  
+
+_  
+
+_  
