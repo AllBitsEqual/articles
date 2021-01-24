@@ -12,12 +12,12 @@
 # Build A Bot (DiscordJS) - a scalebale structure with command modules
 
 ## Last week on "Build A Bot"
-In our last session we have created a functional discord bot with some basic commands, a small config and linked everything to our discord application/bot setup in the developer portal using a generated token.
+In our last session, we have created a functional discord bot with some basic commands, a small config and linked everything to our discord application/bot setup in the developer portal using a generated token.
 
-Today we will clean up our central index.js file, make it more readable and scaleable and move all our existing commands to a separate folder for import. When all else is done, we will also add a few more usefull commands to play with on our test server and give you a better understanding of the wide range of functions and commands possible with discord bots.
+Today we will clean up our central index.js file, make it more readable and scaleable and move all our existing commands to a separate folder for import. When all else is done, we will also add a few more useful commands to play with on our test server and give you a better understanding of the wide range of functions and commands possible with discord bots.
 
 ## Cleaning up
-First of all we will replace our simple bot client instance with a more elaborate bot object. Within this new object, we will have a client for the discord.Client() and as we are planning to expand our logging later on, we are hiding our temporary console.log behind bot.log with the eslint-disable for no-console. That way we can use this for our logging and when we later introduce a better logger, we can do it right there.
+First of all, we will replace our simple bot client instance with a more elaborate bot object. Within this new object, we will have a client for the discord.Client() and as we are planning to expand our logging in the future, we are hiding our temporary console.log behind bot.log with the eslint-disable for no-console. That way we can use this for our logging and when we later introduce a better logger, we can do it right there.
 
 ```javascript
 require('dotenv').config()
@@ -33,7 +33,7 @@ const bot = {
     log: console.log, // eslint-disable-line no-console
 }
 ```
-For comparison I've included the diff to our old file. 
+For comparison, I've included the diff to our old file. 
 
 ![](https://i.imgur.com/SJ3xaf5.png)
 
@@ -104,7 +104,7 @@ The last line is really important as that is the line that actually calls our bo
 Running `npm start` on the command line will boot our bot like it did last time. So far so good.
 
 ## Extracting our command logic
-As you see, even with the basic setup, out index file is already close to 100 lines long and we should try to keep our files both as short as possible AND as focused as possible. With every new command we add to the bot, this file would get more and more verbose so let's move all those existing commands to a new folder and import them from there.
+As you see, even with the basic setup, our index file is already close to 100 lines long and we should try to keep our files both as short as possible AND as focused as possible. With every new command that we add to the bot, this file would get more and more verbose so let's move all those existing commands to a new folder and import them from there.
 
 Under src/ create a new folder called "commands" and add new files for our commands and a central index.js file.
 
@@ -160,7 +160,7 @@ module.exports = {
 }
 ```
 
-With this in place we can now import all commands in our main file and ad them to our bot. To do so, we will create a new collection from via `new discord.Collection()`.
+With this in place, we can now import all commands in our main file and add them to our bot. To do so, we will create a new collection from via `new discord.Collection()`.
 
 ```javascript
 require('dotenv').config()
@@ -216,18 +216,18 @@ bot.onMessage = async function onMessage(message) {
 }
 ```
 
-What is all this code, you might ask? Well, let's see. First of all we still check for our prefix. Then we split the message into an array and store that as our args. This will be handy lateron when we build commands such as `!tag add <tag bane> <tag message>`.
+What is all this code, you might ask? Well, let's see. First of all, we still check for our prefix. Then we split the message into an array and store that as our args. This will be handy later on when we build commands such as `!tag add <tag bane> <tag message>`.
 
-Then we shift the first part out of that array as our command, strip it from the prefix. If we can't find the command in out command list, we can exit directly. Otherwise we can attempt to execute the command from the collection and to be extra safe here, we wrap that in a try/catch.
+Then we shift the first part out of that array as our command, strip it from the prefix. If we can't find the command in our command list, we can exit directly. Otherwise, we can attempt to execute the command from the collection and to be extra safe here, we wrap that in a try/catch.
 
-> When writing this part of the tutorial I ran into the issue of the missing "name" for the !who command and luckily the try/catch error directly helped me identifiying the issue and still keep the bot running.
+> When writing this part of the tutorial I ran into the issue of the missing "name" for the !who command and luckily the try/catch error directly helped me identify the issue and still keep the bot running.
 
 ### What was the caveat?
 Our ping will now also require the prefix. There would have been multiple possible solutions for this issue but none of them felt clean and as I do not have this bot deployed anywhere yet, I can simply change this right now.
 
 ## Adding a default config
 
-Previously, when we added the ping and who/whois commands, we only had the message and args in the execution call. To allow our functions to be more flexible and have a better integration with discord, let's add our bot object to the command handler too.
+Previously, when we added the ping and who/whois commands, we only had the message and args in the execution call. To allow our functions to be more flexible and have better integration with discord, let's add our bot object to the command handler too.
 
 **Why?** Because we can define stuff like our default colours for user feedback (success, error etc.), variables like the bot "name" field we were missing earlier and much more in a config attribute and access those values where we need them. This will help us make adjustments later and prevent redundant code and settings by keeping those values in a central place.
 
@@ -270,9 +270,9 @@ With this done, simply add the bot to the command handler execution.
 ```
 
 ## Finally, a new command - roll the dice
-As a fun excercise we will add a `!dice` command that will let the user choose a number and type of dice and have the bot roll them.
+As a fun exercise, we will add a `!dice` command that will let the user choose a number and type of dice and have the bot roll them.
 
-I've previously written a dice function called `getDiceResult()` which I've included here and adjusted it to generate the results and tests we need to send a nice message into the chat. To continue it is only important to know the format of the return value. If you want to look at the dice roll function in detail, I've included comments and cleaned up the code so that it is easy to read in this file on github.
+I've previously written a dice function called `getDiceResult()` which I've included here and adjusted it to generate the results and tests we need to send a nice message into the chat. To continue it is only important to know the format of the return value. If you want to look at the dice roll function in detail, I've included comments and cleaned up the code so that it is easy to read in this file on GitHub.
 
 ```javascript
 const { 
@@ -284,7 +284,7 @@ const {
 } = getDiceResult(args)
 ```
 
-The realy interesting part here is the embedded message provided by discordJS. There is a lot of stuff you can add to an embed and there are even multiple ways to achieve the same result when defining the fields (read the docs) but for now we will restrict ourselves to the title, colour and content fields.
+The really interesting part here is the embedded message provided by discordJS. There is a lot of stuff you can add to an embed and there are even multiple ways to achieve the same result when defining the fields (read the docs) but for now, we will restrict ourselves to the title, colour and content fields.
 
 ```javascript
 // File: src/commands/dice.js
