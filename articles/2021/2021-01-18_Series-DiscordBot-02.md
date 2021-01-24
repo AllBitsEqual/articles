@@ -12,7 +12,7 @@
 # Build A Bot (DiscordJS) - a scalebale structure with command modules
 
 ## Last week on "Build A Bot"
-When we wrapped up last time, we had created a functional discord bot with some basic commands, a small config and linked everything to our discord application/bot setup in the developer portal using a generated token.
+In our last session we have created a functional discord bot with some basic commands, a small config and linked everything to our discord application/bot setup in the developer portal using a generated token.
 
 Today we will clean up our central index.js file, make it more readable and scaleable and move all our existing commands to a separate folder for import. When all else is done, we will also add a few more usefull commands to play with on our test server and give you a better understanding of the wide range of functions and commands possible with discord bots.
 
@@ -107,6 +107,7 @@ Running `npm start` on the command line will boot our bot like it did last time.
 As you see, even with the basic setup, out index file is already close to 100 lines long and we should try to keep our files both as short as possible AND as focused as possible. With every new command we add to the bot, this file would get more and more verbose so let's move all those existing commands to a new folder and import them from there.
 
 Under src/ create a new folder called "commands" and add new files for our commands and a central index.js file.
+
 ```
 yourProject/
     src/
@@ -132,6 +133,7 @@ module.exports = {
 ```
 
 Moving on to our "who" command, we run into the first issue. We need to import the config again to have access to the name variable.
+
 ```
 const { name } = require('../../config.json')
 
@@ -142,10 +144,10 @@ module.exports = {
         message.channel.send(`My name is ${name} and I was created to serve!`)
     },
 }
-
 ```
 
 Repeat the same process for the "whois" command and then open the new src/commands/index.js file. We need to import all our modules and combine them in one object that we will use in our main bot code.
+
 ```javascript
 const ping = require('./ping')
 const who = require('./who')
@@ -158,9 +160,7 @@ module.exports = {
 }
 ```
 
-
 With this in place we can now import all commands in our main file and ad them to our bot. To do so, we will create a new collection from via `new discord.Collection()`.
-
 
 ```javascript
 require('dotenv').config()
@@ -194,6 +194,7 @@ bot.load = function load() {
 ```
 
 The last thing to do in this step is to replace the old commands in our onMessage function and add our new and shiny collection to it. There is a caveat though and I'll explain it after you had a look at the code.
+
 ```javascript
 // Check and react to messages
 bot.onMessage = async function onMessage(message) {
@@ -223,6 +224,152 @@ Then we shift the first part out of that array as our command, strip it from the
 
 ### What was the caveat?
 Our ping will now also require the prefix. There would have been multiple possible solutions for this issue but none of them felt clean and as I do not have this bot deployed anywhere yet, I can simply change this right now.
+
+## Adding a default config
+
+Previously, when we added the ping and who/whois commands, we only had the message and args in the execution call. To allow our functions to be more flexible and have a better integration with discord, let's add our bot object to the command handler too.
+
+**Why?** Because we can define stuff like our default colours for user feedback (success, error etc.), variables like the bot "name" field we were missing earlier and much more in a config attribute and access those values where we need them. This will help us make adjustments later and prevent redundant code and settings by keeping those values in a central place.
+
+So lets head over to the src/index.js once more and adjust our entry point to pass in the bot object too after adding our new default colours to the bot settings. Instead of grabbing values one by one from the config.json file, we can spread the whole content into our new config object and pass them on.
+
+```javascript
+// File: src/index.js line 7 ff
+const { prefix, name } = config // add the name again
+
+// Config
+const configSchema = {
+    name,
+    defaultColors: {
+        success: '#41b95f',
+        neutral: '#287db4',
+        warning: '#ff7100',
+        error: '#c63737',
+    },
+}
+
+// Define the bot
+const bot = {
+    client: new discord.Client(),
+    log: console.log, // eslint-disable-line no-console
+    commands: new discord.Collection(),
+    config: configSchema, // add the new config to our bot object
+}
+```
+
+With this done, simply add the bot to the command handler execution.
+
+```javascript
+// File: src/index.js line 57 ff
+    try {
+        this.commands.get(command).execute(message, args, bot) // added bot here
+    } catch (error) {
+        this.log(error)
+        message.reply('there was an error trying to execute that command!')
+    }
+```
+
+## Finally, a new command - roll the dice
+As a fun excercise we will add a `!dice` command that will let the user choose a number and type of dice and have the bot roll them.
+
+I've previously written a dice function called `getDiceResult()` which I've included here and adjusted it to generate the results and tests we need to send a nice message into the chat. To continue it is only important to know the format of the return value. If you want to look at the dice roll function in detail, I've included comments and cleaned up the code so that it is easy to read in this file on github.
+
+```javascript
+const { 
+  type,         // (string) "success" | "error"
+  title,        // (string) title of the embedded message
+  fieldName,    // (string) description of the result or error
+  fieldContent, // (string) roll result or error message
+  rest          // (array, optional) the rest of the message bits from args
+} = getDiceResult(args)
+```
+
+The realy interesting part here is the embedded message provided by discordJS. There is a lot of stuff you can add to an embed and there are even multiple ways to achieve the same result when defining the fields (read the docs) but for now we will restrict ourselves to the title, colour and content fields.
+
+```javascript
+// File: src/commands/dice.js
+const discord = require('discord.js')
+
+const getDiceResult = args => {...}
+
+module.exports = {
+    name: 'dice',
+    description: 
+        `Roll a number of dice, either with no argument for 1 d6, ` +
+        `one argument for a number of dice between 1 and 10 or with 2 arguments ` +
+        `to define the dices' sides. (2, 3, 4, 6, 8, 10, 12, 20, 100)`,
+    async execute(message, args, bot) {
+        const { type, title, fieldName, fieldContent, rest } = getDiceResult(args)
+        const embed = new discord.MessageEmbed()
+            .setTitle(title) // The title of the discord embedded message
+            .setColor(bot.config.defaultColors[type]) // either "success" or "error"
+            .addField(fieldName, fieldContent) // our dice results or error message
+        // all additional/optional text the user entered after the params
+        if (rest && rest.length) {
+            embed.addField(`You added the following: `, rest.join(' '))
+        }
+
+        message.channel.send({ embed })
+    },
+}
+```
+
+This command allows the user to use use different combinations of the command and arguments. The following 4 patterns are valid:
+- !dice
+- !dice [1-10]
+- !dice [1-10]d[2, 3, 4, 6, 8, 10, 12, 20, 100]
+- !dice [1-10]d[2, 3, 4, 6, 8, 10, 12, 20, 100] "optional message"
+
+Let's look at the getDiceResult function in detail. We pass in the args and receive an object with strings but what happens inside?
+If you read the comments below, you will see that we try to get the count of "rolls" and type of "sides" of the command with some defaults, check them for our ruleset and then calculate the result.
+
+If the user passes in an invalid argument, we generate an error response and cancel the execution.
+
+```javascript
+const getDiceResult = args => {
+    // get the param or default to "1d6"
+    const [diceParam = '1d6', ...rest] = args
+    // split rolls and sides when applicable
+    const [rolls = 1, sides = 6] = diceParam.split('d')
+
+    // check if rolls and dice are integer
+    const intRolls = Number.isNaN(parseInt(rolls, 10)) ? 1 : parseInt(rolls, 10)
+    const intSides = Number.isNaN(parseInt(sides, 10)) ? 6 : parseInt(sides, 10)
+
+    // check if rolls and dice are within predefined rules
+    const safeRolls = intRolls >= 1 && intRolls <= 10 ? intRolls : 1
+    const safeSides = [2, 3, 4, 6, 8, 10, 12, 20, 100].includes(intSides) ? intSides : 6
+
+    // check if the calculated params match the original params of the user
+    if (parseInt(rolls, 10) !== safeRolls || parseInt(sides, 10) !== safeSides)
+        return {
+            type: 'error',
+            title: 'Invalid Parameter',
+            fieldName:
+                'Please specify either no parameter or add a dice count such as 1d6 or 3d12.',
+            fieldContent: 'Please see "!help dice" for additional information.',
+        }
+
+    // roll the dice
+    const results = []
+    for (let i = 0; i < safeRolls; i++) results.push(Math.ceil(Math.random() * safeSides))
+
+    // format the response
+    return {
+        type: 'success',
+        title: 'Dice Roll Result',
+        fieldName: `You rolled ${safeRolls}d${safeSides}`,
+        fieldContent: `[ ${results.sort((a, b) => a - b).join(', ')} ]`,
+        rest,
+    }
+}
+```
+
+
+
+
+![](https://i.imgur.com/qg1aY4C.jpg)
+
 
 _  
 
