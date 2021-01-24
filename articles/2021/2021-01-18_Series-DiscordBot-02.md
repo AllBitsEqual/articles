@@ -14,10 +14,10 @@
 ## Last week on "Build A Bot"
 In our last session, we have created a functional discord bot with some basic commands, a small config and linked everything to our discord application/bot setup in the developer portal using a generated token.
 
-Today we will clean up our central index.js file, make it more readable and scaleable and move all our existing commands to a separate folder for import. When all else is done, we will also add a few more useful commands to play with on our test server and give you a better understanding of the wide range of functions and commands possible with discord bots.
+Today we will clean up our central index.js file, make it more readable and scaleable and move all our existing commands to a separate folder for import. When all else is done, we will also start adding a command to play with on our test server and give you a better understanding of the wide range of functions and commands possible with discord bots.
 
 ## Cleaning up
-First of all, we will replace our simple bot client instance with a more elaborate bot object. Within this new object, we will have a client for the discord.Client() and as we are planning to expand our logging in the future, we are hiding our temporary console.log behind bot.log with the eslint-disable for no-console. That way we can use this for our logging and when we later introduce a better logger, we can do it right there.
+First of all, we will replace our simple bot client instance with a more elaborate bot object. Within this new object, we will have a client for the discord.Client() and as we are planning to expand our logging in the future, we are hiding our interim console.log behind bot.log with the eslint-disable for no-console. That way we can use this for our logging and when we later introduce a better logger, we can do it right there.
 
 ```javascript
 require('dotenv').config()
