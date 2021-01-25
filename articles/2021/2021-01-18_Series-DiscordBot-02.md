@@ -5,11 +5,11 @@
 	published_at: 2021-01-25 08:00:00
 	header_image: "https://i.imgur.com/LdxxqzS.jpg"
 	categories: "javascript discord discordjs bot chatbot series"
-	canonical_url: "XXXXXXXX"
+	canonical_url: "https://allbitsequal.medium.com/build-a-bot-discordjs-a-scalable-setup-with-command-modules-7fecdda27b40"
 	series: "Build A Bot (DiscordJS)"
 	language: en
 -->
-# Build A Bot (DiscordJS) - A scalebale setup with command modules
+# Build A Bot (DiscordJS) - A scalabale setup with command modules
 
 ## Last week on "Build A Bot"
 In our last session, we have created a functional discord bot with some basic commands, a small config and linked everything to our discord application/bot setup in the discord developer portal using a generated token.
