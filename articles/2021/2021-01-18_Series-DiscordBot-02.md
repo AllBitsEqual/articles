@@ -12,14 +12,17 @@
 # Build A Bot (DiscordJS) - a scalebale structure with command modules
 
 ## Last week on "Build A Bot"
-In our last session, we have created a functional discord bot with some basic commands, a small config and linked everything to our discord application/bot setup in the developer portal using a generated token.
+In our last session, we have created a functional discord bot with some basic commands, a small config and linked everything to our discord application/bot setup in the discord developer portal using a generated token.
 
-Today we will clean up our central index.js file, make it more readable and scaleable and move all our existing commands to a separate folder for import. When all else is done, we will also start adding a command to play with on our test server and give you a better understanding of the wide range of functions and commands possible with discord bots.
+Today we will clean up our central index.js file, make it more readable and scaleable and move all our existing commands to a separate folder for import. When all else is done, we will also start expanding the functionality of our bot by adding a more complex command to play with on our test server and give you a better understanding of the wide range of functionality, tools and commands possible with discord bots.
+
+If you want to grab or compare with the code from last session, here's the [GitHub link to the respective tag](https://github.com/AllBitsEqual/allbotsequal/releases/tag/v0.0.1).
 
 ## Cleaning up
-First of all, we will replace our simple bot client instance with a more elaborate bot object. Within this new object, we will have a client for the discord.Client() and as we are planning to expand our logging in the future, we are hiding our interim console.log behind bot.log with the eslint-disable for no-console. That way we can use this for our logging and when we later introduce a better logger, we can do it right there.
+First of all, we will replace our simple bot client instance with a more elaborate bot object. Within this new object, we will mirror our discord.Client() as client and as we are planning to expand our logging in the future, we are hiding our interim console.log behind bot.log with the comment to disable eslint for the no-console rule as before. That way we can use this for our logging and when we later introduce a better logger, we can do it right there.
 
 ```javascript
+// File src/index.js
 require('dotenv').config()
 const discord = require('discord.js')
 const config = require('../config.json')
@@ -33,13 +36,13 @@ const bot = {
     log: console.log, // eslint-disable-line no-console
 }
 ```
-For comparison, I've included the diff to our old file. 
+For comparison, I've included the diff to our old file. At the end of each step you will find a GitHub link to the commit/changes to compare with your own code.
 
 ![](https://i.imgur.com/SJ3xaf5.png)
 
-Next thing on our list is to add the functions that will be the backbone of our bot in the future. Right now this might seem to be "overkill" or premature optimisation but if we do this now, the code will be easier to read AND easier to extend and build on.
+Next thing on our list is to add some functions that will be triggered by the event handlers as be the backbone of our bot. Right now this might seem to be "overkill" or premature optimisation but if we do this now, the code will be easier to read AND easier to extend and build on.
 
-This is nothing new, it's just our load function and "on ready" event listener from last week, using our new structure.
+This is basically nothing new, it's just our load() function and "on ready" event listener from last week, using our new structure.
 
 ```javascript
 /*
@@ -58,7 +61,9 @@ bot.onConnect = async function onConnect() {
 }
 ```
 
-We will do the same with our "on message" event listener code. Right now we won't change a single line of code within this section but we will wrap it a function before we bind it to the actual event listener and then we set up our event listeners.
+We will do the same with our "on message" event listener code. Right now we won't change a single line of code within this section but we will wrap it in a function before we bind it to the actual event listeners.
+
+For a cleaner separation in our 
 
 ![](https://i.imgur.com/7Lj4wlJ.png)
 
@@ -102,6 +107,8 @@ The last line is really important as that is the line that actually calls our bo
 ![](https://i.imgur.com/jP5ehOf.png)
 
 Running `npm start` on the command line will boot our bot like it did last time. So far so good.
+
+[GitHub Commit](https://github.com/AllBitsEqual/allbotsequal/commit/2bfb4a8a7f7dbc148a2a48d1e414381332fa83d7)
 
 ## Extracting our command logic
 As you see, even with the basic setup, our index file is already close to 100 lines long and we should try to keep our files both as short as possible AND as focused as possible. With every new command that we add to the bot, this file would get more and more verbose so let's move all those existing commands to a new folder and import them from there.
