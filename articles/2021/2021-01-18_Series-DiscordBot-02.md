@@ -1,5 +1,5 @@
 <!--
-	title: "Build A Bot (DiscordJS) - A scalebale setup with command modules"
+	title: "Build A Bot (DiscordJS) - A scalable setup with command modules"
 	description: "Today we will clean up our central index.js file, make it more readable and scaleable and move all our existing commands (and a new one) to a separate folder for import."
 	author: "Konrad Abe (AllBitsEqual)"
 	published_at: 2021-01-25 08:00:00
@@ -18,10 +18,10 @@ Today we will clean up our central index.js file, make it more readable and scal
 
 ![](https://i.imgur.com/LdxxqzS.jpg)
 
-If you want to grab or compare with the code from last session, here's the [GitHub link to the respective tag](https://github.com/AllBitsEqual/allbotsequal/releases/tag/v0.0.1).
+If you want to grab or compare with the code from the last session, here's the [GitHub link to the respective tag](https://github.com/AllBitsEqual/allbotsequal/releases/tag/v0.0.1).
 
 ## Cleaning up
-First of all, we will replace our simple bot client instance with a more elaborate bot object. Within this new object, we will mirror our discord.Client() as client and as we are planning to expand our logging in the future, we are hiding our interim console.log behind bot.log with the comment to disable eslint for the no-console rule as before. That way we can use this for our logging and when we later introduce a better logger, we can do it right there.
+First of all, we will replace our simple bot client instance with a more elaborate bot object. Within this new object, we will mirror our discord.Client() as the client and as we are planning to expand our logging in the future, we are hiding our interim console.log behind bot.log with the comment to disable eslint for the no-console rule as before. That way we can use this for our logging and when we later introduce a better logger, we can do it right there.
 
 ```javascript
 // File: src/index.js
@@ -38,7 +38,7 @@ const bot = {
     log: console.log, // eslint-disable-line no-console
 }
 ```
-For comparison, I've included the diff to our old file. At the end of each step you will find a GitHub link to the commit/changes to compare with your own code.
+For comparison, I've included the diff to our old file. At the end of each step, you will find a GitHub link to the commit/changes to compare with your own code.
 
 ![](https://i.imgur.com/SJ3xaf5.png)
 
@@ -246,11 +246,11 @@ Our ping will now also require the prefix. There would have been multiple possib
 
 ## Adding a default config
 
-Previously, when we added the ping and who/whois commands, we only user the message parameter. We've just added the "args" array too but for allowing our functions to be more flexible and have better integration with discord, let's add our bot object to the command handler as well.
+Previously, when we added the ping and who/whois commands, we only use the message parameter. We've just added the "args" array too but for allowing our functions to be more flexible and have better integration with discord, let's add our bot object to the command handler as well.
 
 **Why?** Because we can define stuff like our default colours for user feedback (success, error etc.), variables like the bot "name" field we were missing earlier and much more in a config attribute and access those values where we need them. This will help us make adjustments later and prevent redundant code and settings by keeping those values in a central place.
 
-So lets make another change to the src/index.js by adding default colours to the bot settings and adjusting our command execution call to pass in the bot object as well.
+So let's make another change to the src/index.js by adding default colours to the bot settings and adjusting our command execution call to pass in the bot object as well.
 
 ```javascript
 // File: src/index.js line 7 ff
@@ -291,7 +291,7 @@ With this done, simply add the bot to the command handler execution.
 ## Finally, a new command - roll the dice
 As a fun exercise, we will add a `!dice` command that will let the user choose a number and type of dice and have the bot roll them.
 
-I've previously written a dice function called `getDiceResult()` as an exercise. I've included and adjusted it to generate the results and texts we need to send a nice and well formated message into the chat. For reference, here is the schema of the return value of said function.
+I've previously written a dice function called `getDiceResult()` as an exercise. I've included and adjusted it to generate the results and texts we need to send a nice and well-formatted message into the chat. For reference, here is the schema of the return value of said function.
 
 ```javascript
 const { 
@@ -410,6 +410,6 @@ module.exports = {
 
 ## Wrapping up
 
-We've cleaned up our central index file, created a clear separation of code sections based on their intent and introduced a command collection to handle all user input based on a set of imported commands from separate files. Furthermore we've added a new config and prepared our user messages in a way that allows us to easily scan for key words and parameters.
+We've cleaned up our central index file, created a clear separation of code sections based on their intent and introduced a command collection to handle all user input based on a set of imported commands from separate files. Furthermore, we've added a new config and prepared our user messages in a way that allows us to easily scan for keywords and parameters.
 
-Next time I will guide you through the process of writing a scaleable and self-updating help command as well as adding our first user management / administration commands to make the bot a bit more useful.
+Next time I will guide you through the process of writing a scaleable and self-updating help command as well as adding our first user management/administration commands to make the bot a bit more useful.
