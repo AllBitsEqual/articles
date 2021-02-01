@@ -1,28 +1,28 @@
 <!--
-	title: "Build A Bot (DiscordJS) - A scalable setup with command modules"
-	description: "Today we will clean up our central index.js file, make it more readable and scaleable and move all our existing commands (and a new one) to a separate folder for import."
+	title: "React Bootstrapping - Quick Start with Typescript, Linting, Redux & Router"
+	description: "Setting up a new project can be a daunting task. I've recently set up a new project base for one of our customers with a fully functional stack and I'm about to offer the finished project template as a starter kit."
 	author: "Konrad Abe (AllBitsEqual)"
-	published_at: 2021-01-25 08:00:00
-	header_image: "https://i.imgur.com/LdxxqzS.jpg"
-	categories: "javascript discord discordjs bot chatbot series"
-	canonical_url: "https://allbitsequal.medium.com/build-a-bot-discordjs-a-scalable-setup-with-command-modules-7fecdda27b40"
-	series: "Build A Bot (DiscordJS)"
+	published_at: 2021-02-01 08:00:00
+	header_image: "https://i.imgur.com/TyXcYW5.jpg"
+	categories: "javascript react typescript redux router"
+	canonical_url: "https://allbitsequal.medium.com/react-bootstrapping-quick-start-with-typescript-linting-redux-router-89f3f1d6b537"
+	series: "React Bootstrapping"
 	language: en
 -->
-# React Bootstrapping - Quick Start with Typescript, Linting, Redux, Router
+# React Bootstrapping - Quick Start with Typescript, Linting, Redux & Router
 
-**Setting up a new project can be a daunting task. So many packets that need to work in concert and so many things to keep track of, that could go wrong or be incompatible in certain versions.**
+**Setting up a new project can be a daunting task. So many packets that need to work in concert and so many things to keep track of, that could go wrong or be incompatible in certain versions. Add typescript to the mix and you are in for a fun journey with untyped packages, missing return types and complex interfaces.**
 
-**Add typescript to the mix and you are in for a fun journey with untyped packages, missing return types and complex interfaces.**
+I've recently set up a new project base for one of our customers with a well planned and fully functional stack and I'm about to offer the finished project (minus some customer-specific features) as a starter template for you to save some time. Or maybe you have your own project running but want to see how to set up some packages in combination? Just lean back and enjoy the show.
 
-I've recently set up a new project base for one of our customers with a well planned and fully functional stack and I'm about to offer the finished project (minus some customer-specific features) as a starter template for you to save some time. Or maybe you have your own but want to see how to set up some packages in combination so lean back and enjoy the show. All code is online on GitHub including separate commits per feature so either code along or copy what you need.
+![](https://i.imgur.com/TyXcYW5.jpg)
 
-This is a two-sessions tutorial, this week we will take care of the business logic and next week we will add styled-components, storybook and testing.
+All code is online on GitHub including separate commits per feature so either code along or copy what you need. This is a two-sessions tutorial, this week we will take care of the business logic and next week we will add styled-components, storybook and testing.
 
 
 ## Kick off
 
-To start, we will use create-React-app to start with a fresh typescript template using the typescript template code
+To start, we will use create-React-app to start with a fresh typescript template using the `--template` parameter.
 
 ```bash 
 create-react-app yourProjectName --template typescript
