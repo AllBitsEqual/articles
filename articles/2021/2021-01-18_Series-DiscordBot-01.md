@@ -15,14 +15,14 @@
 
 **Add typescript to the mix and you are in for a fun journey with untyped packages, missing return types and complex interfaces.**
 
-I've recently set up a new project base for one of our customers with a well planned and fully functional stack and I'm about to offer the finished project (minus some customer specific features) as a startet template for you to save some time. Or maybe you have your own but want to see how to set up some packages in combination so lean back and enjoy the show. All code is online on github including separate commits per feature so either code along or copy what you need.
+I've recently set up a new project base for one of our customers with a well planned and fully functional stack and I'm about to offer the finished project (minus some customer-specific features) as a starter template for you to save some time. Or maybe you have your own but want to see how to set up some packages in combination so lean back and enjoy the show. All code is online on GitHub including separate commits per feature so either code along or copy what you need.
 
-This is a two-sessions tutorial, this week we will take care of the business logic and next week we will add styled components, storybook and testing.
+This is a two-sessions tutorial, this week we will take care of the business logic and next week we will add styled-components, storybook and testing.
 
 
 ## Kick off
 
-To start off, we will use create-React-app to start with a fresh typescript template using the typescript template code
+To start, we will use create-React-app to start with a fresh typescript template using the typescript template code
 
 ```bash 
 create-react-app yourProjectName --template typescript
@@ -30,7 +30,7 @@ create-react-app yourProjectName --template typescript
 
 This gives us a preconfigured react app using typescript with all of the configs taken care of and webpack fully set up, loaders and all.
 
-[GitHub Commit](https://github.com/AllBitsEqual/react-ts-starter/commit/512b61c198a38d5dbdbb4d57a268bcba135b719d) (not really worth looking as it's just the boilerplate from create-react-app)
+[GitHub Commit](https://github.com/AllBitsEqual/react-ts-starter/commit/512b61c198a38d5dbdbb4d57a268bcba135b719d) (not worth looking as it's just the boilerplate from create-react-app)
 
 ## Check the controls
 
@@ -42,7 +42,7 @@ If you run this command in your terminal, it will install all dependencies, plug
 npm i -S eslint eslint-config-airbnb eslint-config-prettier eslint-plugin-prettier eslint-plugin-react eslint-plugin-react-hooks @typescript-eslint/eslint-plugin @typescript-eslint/parser prettier
 ```
 
-In this guide, I'll keep it short and point you to my own files, but I've recently written a longer article about linting in typescript projects so if you would like more information on this topic, head over to [my other article about linting in react native projects](https://allbitsequal.medium.com/series-react-native-step-by-step-working-with-typescript-and-linting-3961c4226793). Even though this article is for React Native / Expo, the linting is basically the same so I really recommend to take a look at it if you want to know more.
+In this guide, I'll keep it short and point you to my files, but I've recently written a longer article about linting in typescript projects so if you would like more information on this topic, head over to [my other article about linting in react native projects](https://allbitsequal.medium.com/series-react-native-step-by-step-working-with-typescript-and-linting-3961c4226793). Even though this article is for React Native / Expo, the linting is basically the same so I recommend to take a look at it if you want to know more.
 
 To continue with our current step, go to this repository and copy the following files and put them into your project's root:
 - .editorcofig
@@ -64,7 +64,7 @@ If you run `npm run lint` in your terminal, you will get the linting output and 
 
 ## Keep track of your state
 
-Next step on our fast paced journey is adding redux, using the redux toolkit (rtk).
+Next step on our fast-paced journey is adding redux, using the redux toolkit (rtk).
 
 Again, grab the necessary packages from npm and we can continue.
 
@@ -107,9 +107,9 @@ export default store
 ```
 
 What's special about this? We are using the default react hooks for useSelector and useDispatch but we wrap them in our own variations including all the typing needed to satisfy typescript and export them again as `useTypedDispatch` and `useTypedSelector`.
-We don't have middleware yet so this line is commented out but I've left it there for when I write my own middleware in the future.
+We don't have middleware yet so this line is commented out but I've left it there for when I write my middleware in the future.
 
-If you look at the rootReducer, you can see how we hooked up the demo counter reducer and our route reducer. I've added a TODO marker to keep track of the fixed history pckage version here as a reminder to check for updates when going through my TODOs.
+If you look at the rootReducer, you can see how we hooked up the demo counter reducer and our route reducer. I've added a TODO marker to keep track of the fixed history package version here as a reminder to check for updates when going through my TODOs.
 
 ```javascript
 // File: src/redux/rootReducer.ts
@@ -148,7 +148,7 @@ export const { increment, decrement } = counterSlice.actions
 export default counterSlice.reducer
 ```
 
-Next stop is our router. In the past it was seen as an anti-pattern to pair routing and state/redux but over the last few years, this has become a proven setup that allows us to control user navigations and state in a more fine-grained and state-checked manner. To make this work, we will ad React-router and connected-React-router for an easy integration of both.
+Next stop is our router. In the past, it was seen as an anti-pattern to pair routing and state/redux but over the last few years, this has become a proven setup that allows us to control user navigations and state in a more fine-grained and state-checked manner. To make this work, we will ad React-router and connected-React-router for easy integration of both.
 
 To check if Redux and Routing work, we will add a demo/counter example and set up some basic routing.
 
@@ -157,7 +157,7 @@ Create or copy the following files from my repostitory:
     - components/demo/Counter.tsx
     - routes/index.tsx
 
-In the Counter component you can see the typed redux hooks at work. It's your well known basic counter example, just a bit shorter.
+In the Counter component, you can see the typed redux hooks at work. It's your well known basic counter example, just a bit shorter.
 
 ```javascript
 // File: src/components/demo/Counter.tsx
@@ -185,7 +185,7 @@ const Counter = (): React.ReactElement => {
 export default Counter
 ```
 
-Our demo version of the routes is similarly simple but it should be enough for you to understand the general idea and expand on it. We're creating a reusable NavBar Component here to simulate a real navigation and a couple of stand-in pseudo page components for home, hello and our counter page as well as a generic 404 for broken/unmatched urls.
+Our demo version of the routes is similarly simple but it should be enough for you to understand the general idea and expand on it. We're creating a reusable NavBar Component here to simulate a real navigation and a couple of stand-in pseudo page components for home, hello and our counter page as well as a generic 404 for broken/unmatched URLs.
 
 
 ```javascript
@@ -239,6 +239,6 @@ If you check the redux tools in your browser, you can see that every navigation 
 [GitHub Commit (final)](https://github.com/AllBitsEqual/react-ts-starter/commit/930463f4407206c0c9fa6f88316bfa6ed0bd0f81)
 
 ## Conclusion
-We've covered a lot of ground today, skipping some of the finer details. As mentioned before, the idea is to allow for a quick setup. I will add more articles in the future, looking in depth into some of those topics I have not covered yet in other articles.
+We've covered a lot of ground today, skipping some of the finer details. As mentioned before, the idea is to allow for a quick setup. I will add more articles in the future, looking in-depth into some of those topics I have not covered yet in other articles.
 
-Next week we will add Storybook and styled components. Having a dynamic and interactive UI library as part of a project can be a real asset. Storybook has proven it's worth for us many times over, allowing us to show UI elements on their own with adjustable attributes and toggles in an intuitive web UI. Your QA and Design/Concept teams will love it.
+Next week we will add Storybook and styled-components. Having a dynamic and interactive UI library as part of a project can be a real asset. Storybook has proven it's worth for us many times over, allowing us to show UI elements on their own with adjustable attributes and toggles in an intuitive web UI. Your QA and Design/Concept teams will love it.
