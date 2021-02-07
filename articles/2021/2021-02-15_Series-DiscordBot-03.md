@@ -1,6 +1,22 @@
-# Create a bot factory using the factory pattern
+---
+tags: Discord, Javascript, DiscordJS, Chatbot, Modules
+---
+<!--
+	title: "Build A Bot (DiscordJS) - A Bot Factory and Revealing Module Design Pattern"
+	description: "This time we will turn our simple bot into a bot factory, allowing us to use it to spawn multiple bots with different congigs, using the well established Factory and Revealing Module design patterns."
+	author: "Konrad Abe (AllBitsEqual)"
+	published_at: 2021-02-8 08:00:00
+	header_image: "https://i.imgur.com/BebCIWs.jpg"
+	categories: "javascript discord discordjs bot chatbot series"
+	canonical_url: ""
+	series: "Build A Bot (DiscordJS)"
+	language: en
+-->
+# Build A Bot (DiscordJS) - A Bot Factory and Revealing Module Design Pattern
 
-Last time we made our commands more flexible and improved the structure of our code To be more readable and scalable. This time we will turn our simple bot into a bot factory, allowing us to use it to spawn multiple bots with different congigs, using the well established Factory design pattern.
+Last time we made our commands more flexible and improved the structure of our code To be more readable and scalable. This time we will turn our simple bot into a bot factory, allowing us to use it to spawn multiple bots with different congigs, using the well established Factory and Revealing Module design patterns.
+
+![](https://i.imgur.com/BebCIWs.jpg)
 
 Things you should know for this part include scope and closure of Javascript functions, es6 basics (const, let and fat arrow functions) 
 
@@ -14,7 +30,9 @@ Then we will wrap all of our remaining code in our factory function and call it 
 
 To make sure we control what is visible and accessible from the outside, we won't return the bot object but only the functions that need to be usable. In our case right now this is only the `bot.load()` function.
 
-Add a return {} to the createBot function and only define one attribue, start, that will call a function 
+Add a return {} to the createBot function and only define one attribue as `start()` that will call the load function.
+
+This is often referred to as the Reveal Module Pattern
 
 ![](https://i.imgur.com/fHXD7DH.png)
 
@@ -114,7 +132,7 @@ const BotFactory = require('./src/index')
 
 const { bots } = config
 
-bots.map(botConfig => {
+bots.forEach(botConfig => {
     const { name, token, prefix} = botConfig
     const bot = BotFactory.createBot({
         token: process.env[token],
@@ -146,6 +164,9 @@ If you name your tokens in your .env file accordingly, you can map them in your 
 ```
 
 ![](https://i.imgur.com/X0Vpu42.png)
+
+![](https://i.imgur.com/exOjx8Y.png)
+
 
 With one final adjustment to our package.json to switch to the new index.js file we are now done and can spawn as many bots as we like (and have registered with Discord)-
 
