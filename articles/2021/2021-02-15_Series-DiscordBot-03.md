@@ -8,13 +8,13 @@ tags: Discord, Javascript, DiscordJS, Chatbot, Modules
 	published_at: 2021-02-8 08:00:00
 	header_image: "https://i.imgur.com/BebCIWs.jpg"
 	categories: "javascript discord discordjs bot chatbot series"
-	canonical_url: ""
+	canonical_url: "https://allbitsequal.medium.com/build-a-bot-discordjs-a-bot-factory-and-revealing-module-design-pattern-ddb4158a1966"
 	series: "Build A Bot (DiscordJS)"
 	language: en
 -->
 # Build A Bot (DiscordJS) - A Bot Factory and Revealing Module Design Pattern
 
-**Last time we made our commands more flexible and improved the structure of our code for better readablility and scalablility. This time we will turn our simple bot into a bot factory, allowing us to use it to spawn multiple bots with different configs, using the well-established Factory and Revealing Module design patterns.**
+**Last time we made our commands more flexible and improved the structure of our code for better readability and scalability. This time we will turn our simple bot into a bot factory, allowing us to use it to spawn multiple bots with different configs, using the well-established Factory and Revealing Module design patterns.**
 
 ![](https://i.imgur.com/BebCIWs.jpg)
 
@@ -75,7 +75,7 @@ The new `load()` will expect a config object with mandatory (token) and optional
 
 In `loadConfig()` we will check if our initial config is there and contains a token. If either check fails, we will throw an error. Otherwise, we will merge the initial config with our configSchema and attach it to our bot before we execute the callback code.
 
-```javascript=
+```javascript
     // little helper to keep the code clean
     const has = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
 
@@ -189,7 +189,7 @@ With one final adjustment to our package.json to switch to the new index.js file
 
 
 ## Bonus
-You might have noticed that our new console log for multiple bots does not tell us which loading message belongs to which bot. To ammend this, I've made another minor adjustment to add a short tag to those messages.
+You might have noticed that our new console log for multiple bots does not tell us which loading message belongs to which bot. To amend this, I've made another minor adjustment to add a short tag to those messages.
 
 ![](https://i.imgur.com/XIs2Hqk.png)
 
