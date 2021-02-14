@@ -23,7 +23,7 @@ Last time we left off, we had turned our simple bot into a bot factory, allowing
 ![](https://i.imgur.com/446hSEo.jpg)
 
 ## Better logging
-To start todays session, we will implement a prettier solution for our console logs using Winston for the logging and chalk for the pretty colours.
+To start today's session, we will implement a prettier solution for our console logs using Winston for the logging and chalk for the pretty colours.
 
 You know the drill, grab what we need from npm and then let's get busy.
 
@@ -31,7 +31,7 @@ You know the drill, grab what we need from npm and then let's get busy.
 npm i -S winston chalk
 ```
 
-Winston is working with log levels and colours so let's start by setting up some sensible defaults. Right now we will mostly work with error, warn and info but lateron, those other levels will be used too.
+Winston is working with log levels and colours so let's start by setting up some sensible defaults. Right now we will mostly work with error, warn and info but later on, those other levels will be used too.
 
 ```javascript
 // File: src/index.js
@@ -63,7 +63,7 @@ winston.addColors({
 })
 ```
 
-Then we create a new logger instance with the basic setup and formating. Within the printf function we can format our desired logout format. We want a timestamp here along with the log level and of course the logged message.
+Then we create a new logger instance with the basic setup and formating. Within the printf function, we can format our desired logout format. We want a timestamp here along with the log level and of course the logged message.
 
 ```javascript
 // File: src/index.js
@@ -82,7 +82,7 @@ const logger = winston.createLogger({
 })
 ```
 
-Whats left to do now is to wire it up with our bot object, finally getting rid of that `eslint-disable`...
+What's left to do now is to wire it up with our bot object, finally getting rid of that `eslint-disable`...
 
 ![](https://i.imgur.com/hqCPgv9.png)
 
@@ -142,7 +142,7 @@ Some of the tools we're going to use for our config are prebaked in Node but in 
 npm i -S jsonfile mkdirp opn
 ```
 
-Let's start by adding our new tools to the imports and defining a useful small sanitise function to radically clean up user input. We'll use this later to create directories for the bots' config files and we don't want any funny characters in those direcroy names.
+Let's start by adding our new tools to the imports and defining a useful small sanitise function to radically clean up user input. We'll use this later to create directories for the bots' config files and we don't want any funny characters in those directory names.
 
 ```javascript
 // File: src/index.js
@@ -161,7 +161,7 @@ As we are going to implement proper configs now, let's put some work in here and
 
 I'm using this schema to define what type of data the config accepts. This way we can run a basic check later to make sure every attribute resembles our requirements and we can include defaults in case the user has not set an attribute. Anything not in this list or of a wrong type will be discarded from the user input or old copies of the bot's config. This way we can make sure that the current config is always compatible.
 
-> One advice, don't put your token into the configSchema by hand. Include it in the initialConfig on bot start, as we had set it up last time. You would not want to hard code your bot's token **(or upload it to a public repository in any case!)** as it better sits in the non versioned .env file or environment config of your hosted project.
+> One advice, don't put your token into the configSchema by hand. Include it in the initialConfig on bot start, as we had set it up last time. You would not want to hard code your bot's token **(or upload it to a public repository in any case!)** as it better sits in the non-versioned .env file or environment config of your hosted project.
 
 ```javascript
 // File: src/index.js
@@ -210,7 +210,7 @@ We will need a way to keep track of config file paths to a certain directory. We
 ```
 
 ### 2) Run it once initially
-Here we are using the sanitise function we defined earlier to take the bot name and use it to create a directory for each bot. If you run the script on your own PC during test and development, the config files will be written into your home/user directory instead of the server's respective directory. Simply check for files starting with `.discord-` followed by your bot's name.
+Here we are using the sanitise function we defined earlier to take the bot name and use it to create a directory for each bot. If you run the script on your own PC during test and development, the config files will be written to your home/user directory instead of the server's respective directory. Simply check for files starting with `.discord-` followed by your bot's name.
 
 ```javascript
 // File: src/index.js
@@ -221,7 +221,7 @@ Here we are using the sanitise function we defined earlier to take the bot name 
 ```
 
 ### 3) Open generated config files for proofreading
-Furthermore I want to be able to open the files our script has created on the first run so that the user can check if his values have been merged correctly.
+Furthermore, I want to be able to open the files our script has created on the first run so that the user can check if his values have been merged correctly.
 
 For this we will use something node provides us with, `opn` and if one of the bots had his config generated for the first time, we will open the generated file exit the process. On the next run of our script, all bots will connect regularly.
 
@@ -245,7 +245,7 @@ For this we will use something node provides us with, `opn` and if one of the bo
 ```
 
 ### 4) Check the configSchema
-We also need a function to validate the user supplied config and merge it with our schema to generate the new bot config. We'll go through our schema step by step, compare the existence and type of the respective attribute in the bot config and either delete or overwrite it depending on our checks. For objects, it will call itself recursively layer by layer.
+We also need a function to validate the user-supplied config and merge it with our schema to generate the new bot config. We'll go through our schema step by step, compare the existence and type of the respective attribute in the bot config and either delete or overwrite it depending on our checks. For objects, it will call itself recursively layer by layer.
 
 ```javascript
 // File: src/index.js
@@ -274,7 +274,7 @@ We also need a function to validate the user supplied config and merge it with o
 ```
 
 ### 5) The big one, loadConfig
-This is the place where it all comes together. I broke it down into 4 sub sections that we will go through piece by piece.
+This is the place where it all comes together. I broke it down into 5 subsections that we will go through piece by piece.
 
 Our new loadConfig function will do a lot of things so I stripped it down to the shell and some comments to give you the outlines.
 
@@ -387,7 +387,7 @@ Write the checked and clean config back to the server.
 ```
 
 #### EPSILON
-Last but not least, reload the config from the directory and check one last time. If everything is fine, execute the callback to continue, otherwise abort with an error.
+Last but not least, reload the config from the directory and check one last time. If everything is fine, execute the callback to continue and otherwise abort with an error.
 
 ```javascript
 // File: src/index.js
@@ -411,6 +411,6 @@ Last but not least, reload the config from the directory and check one last time
 
 
 ## Wrapping up
-Using nodeJS for the first time to access and work with files can be a daunting task so depending on where you are/were with your experience, I hope I was able to keep it nice and basic and understanable.
+Using nodeJS for the first time to access and work with files can be a daunting task so depending on where you are/were with your experience, I hope I was able to keep it nice and basic and understandable.
 
 Our Bot(s) can now be started by creating a new or loading an existing config file. Next time we will add some commands that let the users with the right roles and permissions change the config on the fly, add new tags and maybe even access those from a dashboard... stay tuned.
