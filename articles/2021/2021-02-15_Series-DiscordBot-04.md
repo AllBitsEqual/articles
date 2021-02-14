@@ -6,7 +6,7 @@ tags: Discord, Javascript, DiscordJS, Chatbot, NodeJS, Config
 	description: "Today we will spend a little time on a prettier logger and then allow our bot to read and write his own config file on the server."
 	author: "Konrad Abe (AllBitsEqual)"
 	published_at: 2021-02-15 08:00:00
-	header_image: ""
+	header_image: "https://jackw01.github.io/liora/index"
 	categories: "javascript discord discordjs bot chatbot nodejs config series"
 	canonical_url: ""
 	series: "Build A Bot (DiscordJS)"
@@ -18,14 +18,20 @@ Last time we left off, we had turned our simple bot into a bot factory, allowing
 
 **Today we will spend a little time on a prettier logger and then allow our bot to read and write his own config file on the server.**
 
+**Credits:** Today's session will include code influenced and partly taken from the [Liora Bot Project](https://jackw01.github.io/liora/index). Feel free to look at their code for inspiration.
+
 ![](https://i.imgur.com/446hSEo.jpg)
 
 ## Better logging
-This time we will implement a prettier solution for our console logs using Winston for the logging and chalk for the colours.
+To start todays session, we will implement a prettier solution for our console logs using Winston for the logging and chalk for the pretty colours.
+
+You know the drill, grab what we need from npm and then let's get busy.
 
 ```bash
 npm i -S winston chalk
 ```
+
+Winston is working with log levels and colours so let's start by setting up some sensible defaults. Right now we will mostly work with error, warn and info but lateron, those other levels will be used too.
 
 ```javascript
 // File: src/index.js
@@ -57,6 +63,7 @@ winston.addColors({
 })
 ```
 
+Then we create a new logger instance with the basic setup and formating. Within the printf function we can format our desired logout format. We want a timestamp here along with the log level and of course the logged message.
 
 ```javascript
 // File: src/index.js
@@ -75,20 +82,19 @@ const logger = winston.createLogger({
 })
 ```
 
-Wire it up
+Whats left to do now is to wire it up with our bot object, finally getting rid of that `eslint-disable`...
 
 ![](https://i.imgur.com/hqCPgv9.png)
 
-Change all occurrences of the old logger.
+... and apply it in the places where we used the old and too simple logger and add our desired log levels and use chalk to paint the message where we see fit.
 
 ![](https://i.imgur.com/0kpp0iR.png)
 
-
-So, your console logging should now look like this.
+When you are done, your console logging should now look like this. If you want to see my choice of colours, [check out this commit](https://github.com/AllBitsEqual/allbotsequal/commit/bf208704c5a5f56663d3f25dc036d0c8a0289809).
 
 ![](https://i.imgur.com/8roRFxI.png)
 
-One thing that we can now get rid of is putting the tag everywhere by hand. We can let Winston handle that for us.
+One thing that we can now get rid of is putting the tag everywhere by hand. We can let Winston handle that for us. Change the line where we assigned the `winston.createLogger()` result and turn it into a fat arrow function that passes in the tag and returns the logger. This way we can include the tag in our printf output via `${tag}`.
 
 ```javascript
 // File: src/index.js
@@ -126,6 +132,7 @@ Before we move on to the config, we still need to clean up a bit. There are stil
 
 ![](https://i.imgur.com/zYoIgtw.png)
 
+---
 
 ## Read & Write Configs
 
@@ -135,14 +142,13 @@ Some of the tools we're going to use for our config are prebaked in Node but in 
 npm i -S jsonfile mkdirp opn
 ```
 
-
-Let's start by adding our new tools to the imports and defining a useful sanitise function to radically clean up user input.
+Let's start by adding our new tools to the imports and defining a useful small sanitise function to radically clean up user input. We'll use this later to create directories for the bots' config files and we don't want any funny characters in those direcroy names.
 
 ```javascript
 // File: src/index.js
-const os = require('os')
-const path = require('path')
-const fs = require('fs')
+const os = require('os')     // nodeJS
+const path = require('path') // nodeJS
+const fs = require('fs')     // nodeJS
 const opn = require('opn')
 const mkdirp = require('mkdirp')
 const jsonfile = require('jsonfile')
@@ -153,12 +159,16 @@ const sanitise = str => str.replace(/[^a-z0-9_-]/gi, '')
 
 As we are going to implement proper configs now, let's put some work in here and define a more detailed config schema. We can replace our old configSchema with this.
 
+I'm using this schema to define what type of data the config accepts. This way we can run a basic check later to make sure every attribute resembles our requirements and we can include defaults in case the user has not set an attribute. Anything not in this list or of a wrong type will be discarded from the user input or old copies of the bot's config. This way we can make sure that the current config is always compatible.
+
+> One advice, don't put your token into the configSchema by hand. Include it in the initialConfig on bot start, as we had set it up last time. You would not want to hard code your bot's token **(or upload it to a public repository in any case!)** as it better sits in the non versioned .env file or environment config of your hosted project.
+
 ```javascript
 // File: src/index.js
 
 // Config
 const configSchema = {
-    discordToken: { type: 'string', default: 'Paste your bot token here.' },
+    discordToken: { type: 'string', default: 'HERE BE THE TOKEN' },
     owner: { type: 'string', default: '' },
     name: { type: 'string', default: 'BotAnon' },
     defaultGame: { type: 'string', default: '$help for help' },
@@ -177,8 +187,6 @@ const configSchema = {
 }
 ```
 
-Every value given here is a valid value. Anything not in this list or of a wrong type will be discarded from the user input or old copies of the bot's config. This way we can make sure that the current config is always compatible.
-
 You should also add 2 lines to the rules in out .eslintrc file because we will need them soon to not get bugged by the linter about stuff that is working as intended / we want it to be.
 
 ```json=
@@ -188,8 +196,8 @@ You should also add 2 lines to the rules in out .eslintrc file because we will n
 ```
 
 
-### set the config directory
-
+### 1) Setting the config directory
+We will need a way to keep track of config file paths to a certain directory. We simply store those in our bot object.
 
 ```javascript
 // File: src/index.js
@@ -201,6 +209,21 @@ You should also add 2 lines to the rules in out .eslintrc file because we will n
     }
 ```
 
+### 2) Run it once initially
+Here we are using the sanitise function we defined earlier to take the bot name and use it to create a directory for each bot. If you run the script on your own PC during test and development, the config files will be written into your home/user directory instead of the server's respective directory. Simply check for files starting with `.discord-` followed by your bot's name.
+
+```javascript
+// File: src/index.js
+    // Set default config directory
+    bot.setConfigDirectory(
+        path.join(os.homedir(), `.discord-${sanitise(initialConfig.name)}-bot`)
+    )
+```
+
+### 3) Open generated config files for proofreading
+Furthermore I want to be able to open the files our script has created on the first run so that the user can check if his values have been merged correctly.
+
+For this we will use something node provides us with, `opn` and if one of the bots had his config generated for the first time, we will open the generated file exit the process. On the next run of our script, all bots will connect regularly.
 
 ```javascript
 // File: src/index.js
@@ -221,13 +244,8 @@ You should also add 2 lines to the rules in out .eslintrc file because we will n
 
 ```
 
-```javascript
-// File: src/index.js
-    // Set default config directory
-    bot.setConfigDirectory(path.join(os.homedir(), `.discord-${sanitise(initialConfig.name)}-bot`))
-```
-
-
+### 4) Check the configSchema
+We also need a function to validate the user supplied config and merge it with our schema to generate the new bot config. We'll go through our schema step by step, compare the existence and type of the respective attribute in the bot config and either delete or overwrite it depending on our checks. For objects, it will call itself recursively layer by layer.
 
 ```javascript
 // File: src/index.js
@@ -255,11 +273,12 @@ You should also add 2 lines to the rules in out .eslintrc file because we will n
     }
 ```
 
+### 5) The big one, loadConfig
+This is the place where it all comes together. I broke it down into 4 sub sections that we will go through piece by piece.
 
+Our new loadConfig function will do a lot of things so I stripped it down to the shell and some comments to give you the outlines.
 
-
-
-
+First of all, check for the existence of a config file. We will need this in a moment.
 
 ```javascript
 // File: src/index.js
@@ -268,33 +287,35 @@ You should also add 2 lines to the rules in out .eslintrc file because we will n
         const configExists = fs.existsSync(this.configFile)
 
         /* [ALPHA]
-         *  If file does not exist, create it
+         *  If the file does not exist, create it
          */
+         
 
         /* [BETA]
-         * Load the created file, even if it is empty
+         * Load the config file from the directory
          */
 
+
         /* [GAMMA]
-         * iterate over the given config, check all values sanitise
+         * iterate over the given config, check all values and sanitise
          */
+
 
         /* [DELTA]
          * write the changed/created config file to the directory
-         * if config was newly created, open the config file for the user
          */
-
-        /* [EPSILON]
-         * read the new file and assign it to the bot's config
-         */
-
-        /* [ZETA]
-         * check the config file and look for the token
-         */
+         
+         
+         /*
+          * read the new file from the directory again 
+          * - assign it to the bot's config
+          * - execute callback() or abort on error
+          */
     }
 ```
 
-
+#### ALPHA
+If no old config is found, we simply create a new config.json in our chosen location using `mkdirp`, a small package resembling the desktop command `mkdir -p`, and prepare it with the most basic and important fields from what we are passing in on project start; discordToken, Prefix and 
 
 ```javascript
 // File: src/index.js
@@ -320,11 +341,14 @@ You should also add 2 lines to the rules in out .eslintrc file because we will n
         }
 ```
 
+#### BETA
+Next step, we load the config file, no matter if it's an old one or we just created it.
+
 ```javascript
 // File: src/index.js
 
         /* [BETA]
-         * Load the created file, even if it is empty
+         * Load the config file from the directory
          */
         this.log.info(`Loading config...`)
         try {
@@ -338,72 +362,55 @@ You should also add 2 lines to the rules in out .eslintrc file because we will n
         }
 ```
 
+#### GAMMA
+Now call our configIterator with the config we read from the disk and compare it to our schema. As previously written, this makes sure that no old or mismatched values remain in the config once we decide to change the schema in the future.
+
 ```javascript
 // File: src/index.js
 
         /* [GAMMA]
-         * iterate over the given config, check all values santise
+         * iterate over the given config, check all values and sanitise
          */
         this.configIterator(this.config, configSchema)
 ```
+
+#### DELTA
+Write the checked and clean config back to the server.
 
 ```javascript
 // File: src/index.js
 
         /* [DELTA]
          * write the changed/created config file to the directory
-         * if config was newly created, open the config file for the user
          */
          fs.writeFileSync(this.configFile, JSON.stringify(this.config, null, 4))
-        if (!configExists) {
-            this.log.warn('Config file created for the first time.')
-            this.log.warn('Please check the opened new file for completeness!')
-            this.openConfigFile()
-        }
 ```
+
+#### EPSILON
+Last but not least, reload the config from the directory and check one last time. If everything is fine, execute the callback to continue, otherwise abort with an error.
 
 ```javascript
 // File: src/index.js
 
         /* [EPSILON]
-         * read the new file and assign it to the bot's config
+         * read the new file from the directory again
+         * - assign it to the bot's config
+         * - execute callback() or abort on error
          */
-         jsonfile.readFile(this.configFile, (err, obj) => {
+        jsonfile.readFile(this.configFile, (err, obj) => {
             if (err) {
                 bot.log.error(chalk.red.bold(`Unable to load config.json: ${err.message}`))
                 throw err
             } else {
                 bot.config = obj
+                callback()
             }
         })
-
-```
-
-```javascript
-// File: src/index.js
-
-        /* [ZETA]
-         * check the config file and look for the token
-         */
-        this.log.info(`Reading config...`)
-        try {
-            if (!config || !has(config, 'token')) {
-                throw Error(`Config or token are missing.`)
-            }
-            this.config = {
-                ...configSchema,
-                ...config,
-            }
-            callback()
-        } catch (err) {
-            this.log.error(`Error loading config: ${err.message}`)
-            this.log.error('Please fix the config error and retry.')
-        }
 ```
 
 
 
-## Conclusion
-N
+## Wrapping up
+Using nodeJS for the first time to access and work with files can be a daunting task so depending on where you are/were with your experience, I hope I was able to keep it nice and basic and understanable.
 
-Next time we will add some commands that let the bot admins change the config on the fly, add new tags and maybe even access those from a dashboard... stay tuned.
+Our Bot(s) can now be started by creating a new or loading an existing config file. Next time we will add some commands that let the users with the right roles and permissions change the config on the fly, add new tags and maybe even access those from a dashboard... stay tuned.
