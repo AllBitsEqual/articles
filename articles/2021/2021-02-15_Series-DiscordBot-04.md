@@ -8,7 +8,7 @@ tags: Discord, Javascript, DiscordJS, Chatbot, NodeJS, Config
 	published_at: 2021-02-15 08:00:00
 	header_image: "https://jackw01.github.io/liora/index"
 	categories: "javascript discord discordjs bot chatbot nodejs config series"
-	canonical_url: ""
+	canonical_url: "https://allbitsequal.medium.com/build-a-bot-discordjs-better-logging-and-a-persistent-bot-config-6e3cd07bc91a"
 	series: "Build A Bot (DiscordJS)"
 	language: en
 -->
@@ -16,9 +16,9 @@ tags: Discord, Javascript, DiscordJS, Chatbot, NodeJS, Config
 
 Last time we left off, we had turned our simple bot into a bot factory, allowing us to spawn multiple bots with different configs. Those configs though were still pretty simple and not persistent. The user could not make any changes unless he made them directly to the config files.
 
-**Today we will spend a little time on a prettier logger and then allow our bot to read and write his own config file on the server.**
+**Today we will spend a little bit of time on a prettier logger and then allow our bot to read and write his own config file on the server.**
 
-**Credits:** Today's session will include code influenced and partly taken from the [Liora Bot Project](https://jackw01.github.io/liora/index). Feel free to look at their code for inspiration.
+*Credits: Today's session will include code influenced and partly taken from the [Liora Bot Project](https://jackw01.github.io/liora/index). Feel free to look at their code for more inspiration.*
 
 ![](https://i.imgur.com/446hSEo.jpg)
 
@@ -408,7 +408,73 @@ Last but not least, reload the config from the directory and check one last time
         })
 ```
 
+If you want to make sure you got everything, have a look at the finished function in all it's glory and complexity.
 
+```javascript
+bot.loadConfig = function loadConfig(config, callback) {
+        bot.log.info(`Checking for config file...`)
+        const configExists = fs.existsSync(this.configFile)
+
+        /*
+         *  If the file does not exist, create it
+         */
+        if (!configExists) {
+            bot.log.info(`No config file found, generating...`)
+            try {
+                mkdirp.sync(path.dirname(this.configFile))
+                const { token, name, prefix } = initialConfig
+                const baseConfig = {
+                    discordToken: token,
+                    prefix,
+                    name,
+                }
+                fs.writeFileSync(this.configFile, JSON.stringify(baseConfig, null, 4))
+            } catch (err) {
+                this.log.error(chalk.red.bold(`Unable to create config.json: ${err.message}`))
+                throw err
+            }
+        }
+
+        /*
+         * Load the config file from the directory
+         */
+        this.log.info(`Loading config...`)
+        try {
+            this.config = JSON.parse(fs.readFileSync(this.configFile))
+        } catch (err) {
+            this.log.error(`Error reading config: ${err.message}`)
+            this.log.error(
+                'Please fix the config error or delete config.json so it can be regenerated.',
+            )
+            throw err
+        }
+
+        /*
+         * iterate over the given config, check all values and sanitise
+         */
+        this.configIterator(this.config, configSchema)
+
+        /*
+         * write the changed/created config file to the directory
+         */
+        fs.writeFileSync(this.configFile, JSON.stringify(this.config, null, 4))
+
+        /*
+         * read the new file from the directory again
+         * - assign it to the bot's config
+         * - execute callback() or abort on error
+         */
+        jsonfile.readFile(this.configFile, (err, obj) => {
+            if (err) {
+                bot.log.error(chalk.red.bold(`Unable to load config.json: ${err.message}`))
+                throw err
+            } else {
+                bot.config = obj
+                callback()
+            }
+        })
+    }
+```
 
 ## Wrapping up
 Using nodeJS for the first time to access and work with files can be a daunting task so depending on where you are/were with your experience, I hope I was able to keep it nice and basic and understandable.
