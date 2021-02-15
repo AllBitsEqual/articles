@@ -6,7 +6,7 @@ tags: Discord, Javascript, DiscordJS, Chatbot, NodeJS, Config
 	description: "Today we will spend a little time on a prettier logger and then allow our bot to read and write his own config file on the server."
 	author: "Konrad Abe (AllBitsEqual)"
 	published_at: 2021-02-15 08:00:00
-	header_image: "https://jackw01.github.io/liora/index"
+	header_image: "https://i.imgur.com/446hSEo.jpg"
 	categories: "javascript discord discordjs bot chatbot nodejs config series"
 	canonical_url: "https://allbitsequal.medium.com/build-a-bot-discordjs-better-logging-and-a-persistent-bot-config-6e3cd07bc91a"
 	series: "Build A Bot (DiscordJS)"
@@ -189,7 +189,7 @@ const configSchema = {
 
 You should also add 2 lines to the rules in out .eslintrc file because we will need them soon to not get bugged by the linter about stuff that is working as intended / we want it to be.
 
-```json=
+```json
 // File: .eslintrc
     "no-param-reassign": ["error", { "props": false }],
     "valid-typeof": 0
