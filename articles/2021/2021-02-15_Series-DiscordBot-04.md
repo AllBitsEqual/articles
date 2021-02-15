@@ -18,6 +18,8 @@ Last time we left off, we had turned our simple bot into a bot factory, allowing
 
 **Today we will spend a little bit of time on a prettier logger and then allow our bot to read and write his own config file on the server.**
 
+As always, the link to the finished code in GitHub is at the end of the article.
+
 *Credits: Today's session will include code influenced and partly taken from the [Liora Bot Project](https://jackw01.github.io/liora/index). Feel free to look at their code for more inspiration.*
 
 ![](https://i.imgur.com/446hSEo.jpg)
@@ -475,6 +477,10 @@ bot.loadConfig = function loadConfig(config, callback) {
         })
     }
 ```
+
+[Link to the finished code / tag v0.0.4 on GitHub](https://github.com/AllBitsEqual/allbotsequal/releases/tag/v0.0.4)
+
+---
 
 ## Wrapping up
 Using nodeJS for the first time to access and work with files can be a daunting task so depending on where you are/were with your experience, I hope I was able to keep it nice and basic and understandable.
