@@ -8,7 +8,7 @@ tags: React, Typescript, Redux, Javascript, Fetch
 	published_at: 2021-02-22 08:00:00
 	header_image: "https://i.imgur.com/NO2Kmbu.jpg"
 	categories: "javascript react typescript redux fetch"
-	canonical_url: "XXXXXX"
+	canonical_url: "https://allbitsequal.medium.com/react-bootstrapping-deep-dive-into-redux-messaging-patterns-4d114abe5d5e"
 	series: "React Bootstrapping"
 	language: en
 -->
@@ -415,7 +415,7 @@ export const useArticlesData = (): Article[] | null => {
 With this in place, we can clean up our Articles.tsx and remove everything by replacing all the state logic with our new hook.
 
 ```javascript
-// File: src/components/pages/articles.hooks.ts
+// File: src/components/pages/articles.tsx
 
 import React from 'react'
 import { useArticlesData } from './articles.hooks'
@@ -463,7 +463,9 @@ The other thing I did change was adding a key attribute to my list of articles b
 ---
 
 ## Links and Recommendations
-[Nir Kaufmann has a very good presentation on Advanced Redux Patterns on YouTube](https://www.youtube.com/watch?v=JUuic7mEs-s) and while he does some things differently, you will be able to see the same patterns emerge.
+[Nir Kaufmann has a great presentation on Advanced Redux Patterns on YouTube](https://www.youtube.com/watch?v=JUuic7mEs-s), and while he does some things differently, you will be able to see the same patterns emerge.
+![](https://i.imgur.com/MMhD4NX.jpg)
+
 
 Additionally, I can really recommend this old book because many of the ideas and concepts are still relevant today.
 
