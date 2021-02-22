@@ -1,13 +1,13 @@
 ---
-tags: React, Typescript, Redux, Javascript
+tags: React, Typescript, Redux, Javascript, Fetch
 ---
 <!--
 	title: "React Bootstrapping - Deep Dive into Redux Message Patterns"
 	description: "Today we will dive a bit deeper into the way I work with redux and why I think that, despite recent developments of redux hooks, redux still has its place in our infrastructure."
 	author: "Konrad Abe (AllBitsEqual)"
-	published_at: 2021-XX-XX 08:00:00
-	header_image: "XXXXXX"
-	categories: "javascript react typescript redux"
+	published_at: 2021-02-22 08:00:00
+	header_image: "https://i.imgur.com/PLGNWce.jpg"
+	categories: "javascript react typescript redux fetch"
 	canonical_url: "XXXXXX"
 	series: "React Bootstrapping"
 	language: en
@@ -16,8 +16,9 @@ tags: React, Typescript, Redux, Javascript
 
 **Today we will dive a bit deeper into the way I work with redux and why I think that, despite recent developments of redux hooks, redux still has its place in our infrastructure.**
 
-I've got multiple requests for more information about my redux setup after writing my last article so I decided to make a small deep dive into the topic this week and I will probably follow up with another one in the next article about routing with redux and typescript, if I get a similar response.
+I've got multiple requests for more information about my redux setup after writing my last article so I decided to make a small deep dive into the topic this week and I will probably follow up with another one in the next article about routing with redux and typescript if I get a similar response.
 
+![](https://i.imgur.com/PLGNWce.jpg)
 
 ## What is redux?
 Redux is a predictable state container that uses the concept of actions and reducers to change data in a single source of truth, the redux store.
@@ -25,16 +26,16 @@ Redux is a predictable state container that uses the concept of actions and redu
 Wow... This sure sounds important but what does it actually mean? What is the state of a website and what is a store? 
 
 ### What is the store? 
-The redux store is nothing more than an object containing our websites data and ui state, ideally in a normalised form. If a user navigates to the article listing page of your website, and filters the listed articles by a topic, our state contains the following:
-- Navigation state: the current page/url
-- Data state: the list of articles (response from an api call)
+The redux store is nothing more than an object containing our websites data and UI state, ideally in a normalised form. If a user navigates to the article listing page of your website and filters the listed articles by a topic, our state contains the following:
+- Navigation state: the current page/URL
+- Data state: the list of articles (response from an API call)
 - UI state: the current filter mask
 
 ### What is an action?
 Actions are messages of intent. An action does not change any data in our stored state. An action is nothing more than a message containing an identifier and a payload to be handled by a reducer. 
 - If the user navigates to a page, you dispatch a navigation action and the navigation updates
-- If the page wants to load data from the website, it dispatches an api action
-- If the user selects a filter in the ui, an action is dispatched to update the filter for the currently displayed data
+- If the page wants to load data from the website, it dispatches an API action
+- If the user selects a filter in the UI, an action is dispatched to update the filter for the currently displayed data
 
 ### What is a reducer?
 Reducers handle all actions and decide on applicable state changes. If a dispatched action has a matching reducer, the reducer will check the action's identifier (type), accept the payload (data) and make changes by creating a new state. "New" is important here, in redux we do not mutate the state. Every action creates a new state.
@@ -46,17 +47,17 @@ and handles it based on the content.
 
 This (optional) part is the most interesting in my opinion. I usually have zero logic inside my actions and as little as possible in my reducers. Actions are nothing but messages with an intent and reducers only handle the state change in a predictable way. They should be as clean as possible, returning the same output every time they receive the same input.
 
-Another thing to keep in mind is that redux is synchronous. If you want asynchronous interactions (like api requests), the middleware is the right place to implement this. A few common examples for middleware are the following:
+Another thing to keep in mind is that redux is synchronous. If you want asynchronous interactions (like API requests), the middleware is the right place to implement this. A few common examples of middleware are the following:
 
 #### Filter
-Filter middleware looks at incoming actions and makes decisions based on its own logic. You might, for example, want to throttle user actions that result in an api request or ui change. In that case you can do so here, only letting an action through every n seconds.
+Filter middleware looks at incoming actions and makes decisions based on its own logic. You might, for example, want to throttle user actions that result in an API request or UI change. In that case, you can do so here, only letting an action through every n seconds.
 
 #### Async API requests 
-Api request are another use case. Let's say the user loads a list of articles. The article action signals its intent to load data from an api as well as callbacks to execute on success and error of the request. The middleware can now pass this action through so that the message is following the correct flow and then dispatches a neutral api action. 
+API requests are another use case. Let's say the user loads a list of articles. The article action signals its intent to load data from an API as well as callbacks to execute on the success and error of the request. The middleware can now pass this action through so that the message is following the correct flow and then dispatches a neutral API action. 
 
-The api action does not need to know about the source of the request (our articles page) and only cares for the requested data and URL. This way you only need to write and test the api logic once and its fully reusable. Once the api request is resolved, the response is passed on to the success action (store articles)  or error action (log error message).
+The API action does not need to know about the source of the request (our articles page) and only cares for the requested data and URL. This way you only need to write and test the API logic once and it is fully reusable. Once the API request is resolved, the response is passed on to the success action (store articles)  or error action (log error message).
 
-This might sound verbose and like a lot of actions are dispatched for a simple request of data from an api but it allows us to look at the state of our app and the flow of messages and see exactly what happened.
+This might sound verbose and like a lot of actions are dispatched for a simple request of data from an API but it allows us to look at the state of our app and the flow of messages and see exactly what happened.
 
 ```
 [ROUTER] Navigate
@@ -67,7 +68,7 @@ This might sound verbose and like a lot of actions are dispatched for a simple r
 ```
 
 #### Splitter
-If you take it one step further, you might want to update your ui based on the loading/pending request. In that case you would set up the request articles action to both trigger the api request and update the ui accordingly.
+If you take it one step further, you might want to update your UI based on the loading/pending request. In that case, you would set up the request articles action to both trigger the API request and update the UI accordingly.
 The middleware would then dispatch multiple separate actions and the action/message flow could then look like this. 
 
 ```
@@ -81,24 +82,24 @@ The middleware would then dispatch multiple separate actions and the action/mess
 ```
 
 ### In some cases more is more
-The official redux guidelines actually recommend a different pattern where you write one action an multiple reducers handle it accordingly but I recommend not to do so. 
+The official redux guidelines recommend a different pattern where you write one action and multiple reducers handle it accordingly but I recommend not to do so. 
 
-Don't get me wrong. I, too, prefer to write less code and chose to work with redux toolkit for exactly this reason but dispatching more actions and handling them separately, turning your application in to a massage based system, has its benefits in regard to scalability and readability, two qualities that can make a big difference in the future if your project.
+Don't get me wrong. I, too, prefer to write less code and chose to work with redux toolkit for exactly this reason but dispatching more actions and handling them separately, turning your application into a message-based system, has its benefits regarding scalability and readability, two qualities that can make a big difference in the future if your project.
 
-If you follow the path described above, the separation of your project's different concerns is much clearer and is following well established design patterns developed and describedamy years ago by people with loads of experience. 
+If you follow the path described above, the separation of your project's different concerns is much clearer and is following well-established design patterns developed and described many years ago by people with loads of experience. 
 
 ## Demo Time
 Let's see what we need to get our article page working with redux.
 
 ### Preparation
-I've prepared a new project using create-react-app and using a typescript template. I've also added some linting and an article component to showcase our store. Currently we are displaying a list of articles that's hard coded. We want to move this to a mock-api server, I've prepared, including the mock server response for our articles. 
+I've prepared a new project using create-react-app and using a typescript template. I've also added some linting and an article component to showcase our store. Currently, we are displaying a list of articles that are hardcoded. We want to move this to a mock-api server, which I've prepared, including the mock server response for our articles. 
 
 You can check out the prepared project including the mock api server here to get started.
 
 
 
 ### Redux articles duck
-We will start of by defining our requirements and types. The Article type can be copied from our articles.tsx and the rest is new.
+We will start by defining our requirements and types. The Article type can be copied from our articles.tsx while the rest is new.
 
 ```javascript
 // File: src/redux/ducks/article.ts
@@ -129,10 +130,10 @@ type InitialState = {
 ```
 
 
-For our actions we need to be able to 
+For our actions, we need to be able to 
 - request articles
 - store articles
-- set the status of the ui
+- set the status of the UI
 - handle a request error
 
 ```javascript
@@ -159,7 +160,7 @@ export const cancelArticlesRequest = createAction(
 
 
 
-In our middleware we will match all actions that match our requestArticleData action, to send off the api requests via api actions. We tell the api the type and target of our request and what to do with the resulting success or error. This is the splitter pattern, we talked about earlier.
+In our middleware, we will match all actions that match our requestArticleData action, to send off the API requests via API actions. We tell the API the type and target of our request and what to do with the resulting success or error. This is the splitter pattern, we talked about earlier.
 
 We also match for cancelArticleRequest actions because we want to both log the error (for now temporary to console) and update the UI to cancel the "pending" state.
 
@@ -212,13 +213,13 @@ const articleReducer = createReducer(initialState, (builder) => {
 export default articleReducer
 ```
 
-### Redux api duck
+### Redux API duck
 
-Our api code is not trivial and I'd advise you to simply copy it for now if you feel like you still need a better understanding of how redux with typescript works but I'll try to outline the basics.
+Our API code is not trivial and I'd advise you to simply copy it for now if you feel like you still need a better understanding of how redux with typescript works but I'll try to outline the basics.
 
-First of all we need to define our API endpoint. Our example assumes that there is only one and it's currently set to our mock api server.
+First of all, we need to define our API endpoint. Our example assumes that there is only one and it's currently set to our mock API server.
 
-Then we need to define all different types of requests ("GET", "POST", "PUT", "DELETE") and how an api payload is structured including onSuccess and onError actions.
+Then we need to define all different types of requests ("GET", "POST", "PUT", "DELETE") and how an API payload is structured including onSuccess and onError actions.
 
 
 ```javascript
@@ -369,7 +370,7 @@ To add our middleware to the store, we can append it to the already existing def
 ### React Redux, hook things up with the new store
 We already have our redux provider component as a wrapper around our app (part of the prepared setup I made) but right now, our Articles.tsx component does not know how to access the article state.
 
-In the past it was common to use the connect() function from react-redux to allow components to access the state but with the advent of react hooks, this changed. We already have a useReduxDispatch and useReduxSelector hook (also part of the prepared setup) and could use them directly in our Articles component but I personally prefer to keep them separate in a .hooks.ts file for each component.
+In the past, it was common to use the connect() function from react-redux to allow components to access the state but with the advent of react hooks, this changed. We already have a useReduxDispatch and useReduxSelector hook (also part of the prepared setup) and could use them directly in our Articles component but I personally prefer to keep them separate in a .hooks.ts file for each component.
 
 We will create a new articles.hooks.ts file next to our articles.tsx component file and add our redux interaction there to keep our Articles component as clean as possible.
 
@@ -398,7 +399,7 @@ export const useArticlesData = (): Article[] | null => {
 }
 ```
 
-With this in place, we can clean up our Articles.tsx and remove everything by replacing all the state logic with out new hook.
+With this in place, we can clean up our Articles.tsx and remove everything by replacing all the state logic with our new hook.
 
 ```javascript
 // File: src/components/pages/articles.hooks.ts
@@ -443,6 +444,6 @@ The other thing I did change was adding a key attribute to my list of articles b
 
 ---
 
-But with all said and done, we've successfully hooked up our website with a mock api using a clean and scalable message pattern in redux, allowing for a readable and easy to understand message flow.
+But with all said and done, we've successfully hooked up our website with a mock API using a clean and scalable message pattern in redux, allowing for a readable and easy to understand message flow.
 
-Next time we will look at routing and page navigation in detail before we move on to layouting and styling our app with styled components and themes.
+Next time we will look at routing and page navigation in detail before we move on to applying layout and styling our app with styled-components and themes.
