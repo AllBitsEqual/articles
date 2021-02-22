@@ -1,5 +1,5 @@
 ---
-tags: React, Typescript, Redux, Javascript, Fetch
+tags: React, Typescript, Redux, Javascript, Design Patterns
 ---
 <!--
 	title: "React Bootstrapping - Deep Dive into Redux Messaging Patterns"
