@@ -1,5 +1,5 @@
 ---
-tags: React, Typescript, Redux, Javascript
+tags: Slices of Work, Agile, Scrum, Happy Coding
 ---
 <!--
 	title: "XXXXXX"
@@ -86,7 +86,42 @@ You and your company are trying their best to be as agile and productive as poss
 #### There is no solution for this... sorry
 This is one of the moments where you need to face a sad truth, you will not be able to work fully agile. It just won't work.
 
+---
 
+## Don't force yourself
+There are situations where working agile will just not work. Maybe these reasons are outside of your circle of control. Trying to force the mantle of Scrum on a team or a company can lead to disgruntled and unhappy employees, bad project management and even completely destroy a team's productivity and happiness.
+
+But there is still hope. There is still a way that is working quite well for me right now, gets things done, helps us meet deadlines and keep everyone happy. I like to call it **"Agile'*ish*"**.
+
+Take the best from working agile and apply it where possible. 
+
+### Stay connected, Stay informed
+Keep up regular short meetings to get everyone on track of current tasks. Plan tasks as a team. Get ideas and feedback from everyone and get everyone on the team involved. This does not only help people stay in touch and feel like they are part of the whole project, **it creates a feeling of ownership**.
+
+**This is our project**, our code and our success.
+
+### Keep on shipping
+Work iteratively and keep the main project running. Use the Git Workflow and keep features small. Write Proof of Concept features and build them up. Never let a branch get older than 2 weeks top before mergin a working version back into the main trunk. The longer a feature exists in isolation, the more likely it is that your will run into major issues when you try to merge.
+
+This is **our project running** on staging. Isn't that cool?!
+
+### Never stop improving
+Get feedback from your peers about your work. Don't stop at code reviews (also never stop code reviews!!!) but ask for honest and fair feedback. Create an environment of trust and honesty, where people can talk to their colleagues freely and with no fear or suspicion. Get together regularly in small groups and gather feedback on processes, refine them and commit to them.
+
+This is the way we **build our project**. We all agreed on this.
+
+### Plan ahead and look back
+Analyse and break down tasks into bite-sized chunks that you can understand and plan. Write down user stories that explain the task from the perspective of a real person using the software and then create tasks needed to perform to reach that goal. Look back on similar tasks and try to get a good feeling on complexity and possible issues to put a number on those tasks.
+
+This is what we need to do to **finish our project**. We have a plan.
+
+## Wrapping up
+Maybe your company might not get the official "SCRUM Certified" label, maybe your customer doesn't want to work agile and maybe there are some things you just can't change but that is no reason not to **try to be a better you tomorrow than you were yesterday**.
+
+Take from the Agile Idea what works for you and add it to your repatoire. See what works and what doesn't and keep iterating. Maybe don't tell your friends and business partners that your company is working agile, maybe stand proud and say: 
+> WE ARE AGILE'ISH AND WE GET THINGS DONE!
+
+Happy Coding, everyone!
 
 
 .  
@@ -102,11 +137,6 @@ This is one of the moments where you need to face a sad truth, you will not be a
 .  
 
 .  
-
-There can't be fixed budgets / total estimates
-
-
-
 
 
 
