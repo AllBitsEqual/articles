@@ -1,5 +1,5 @@
 ---
-tags: Slices of Work, Agile, Scrum, Happy Coding
+tags: Slice of Work, Agile, Scrum, Happy Coding
 ---
 <!--
 	title: "Scrum / Agile is not broken but we need to stop pretending"
@@ -8,7 +8,7 @@ tags: Slices of Work, Agile, Scrum, Happy Coding
 	published_at: 2021-03-01 08:00:00
 	header_image: "https://i.imgur.com/zYwiL2I.jpg"
 	categories: "Slices of Work, Agile, Scrum, Happy Coding"
-	canonical_url: "XXXXXX"
+	canonical_url: "https://allbitsequal.medium.com/scrum-agile-is-not-broken-but-we-need-to-stop-pretending-ccdc9c4852cc"
 	series: "Slices of Work"
 	language: en
 -->
