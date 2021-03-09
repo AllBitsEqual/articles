@@ -1,3 +1,17 @@
+---
+tags: Slice of Work, TDD, Typescript, Testing, Happy Coding
+---
+<!--
+	title: "Typescript and Test Driven Design don't fix everything, but..."
+	description: "It took me a few years to see how my thinking was completely backwards. TS and TDD they make you think differently about the issues at hand. For a long time, I thought that I did not have the time to write tests or that I’ll simply do it later. It took me a few years to see how my thinking was completely backwards."
+	author: "Konrad Abe (AllBitsEqual)"
+	published_at: 2021-03-09 08:00:00
+	header_image: "https://i.imgur.com/xPOCHpA.jpg"
+	categories: "Slice of Work, TDD, Typescript, Testing, Happy Coding"
+	canonical_url: "https://allbitsequal.medium.com/typescript-and-test-driven-design-dont-fix-everything-but-bc5f992d9bdb"
+	series: "Slices of Work"
+	language: en
+-->
 # Typescript and Test Driven Design don't fix everything, but... 
 
 But they make you think differently about the issues at hand. 
@@ -5,6 +19,8 @@ But they make you think differently about the issues at hand.
 For a long time, I thought that I did not have the time to write tests or that I'll simply do it later. It took me a few years to see how my thinking was completely backwards.
 
 Let me quickly draw you a picture...
+
+![](https://i.imgur.com/xPOCHpA.jpg)
 
 ## I'm a slow adapter
 When react made its big splash alongside angular, I had a look at it but decided to stick with vanilla Javascript for the time being. When redux added a convenient solution for managing state and storing data, I was still using local storage and other patterns for a while.
@@ -33,6 +49,7 @@ I can't show you our customers' business logic here but I'll try to explain it o
 
 Usually, I would sit down and simply write the basics and hack away from there. If it works, keep it and expand it. If not, discard and try again. I've previously written about rapid prototyping and I'm still a big fan but this time I have a very clear idea about what I want to end up with so I can sit down and properly plan ahead using the previously mentioned tools.
 
+## My Process
 I'm dividing my process into the following steps:
 - paper prototype planning 
 - Empty functions
@@ -41,7 +58,7 @@ I'm dividing my process into the following steps:
 - Actual code
 - Green test check 
 
-This process makes me think about what type of data I'm handling, how to process and transform it and this is also a good way to structure your code before you write it. Preparing coding sessions, tutorials and seminars, this has come in handy as well.
+This process makes me think about what type of data I'm handling, how to process and transform it and this is also a good way to structure your code before you write it. When preparing coding sessions, tutorials and seminars, this has come in handy as well.
 
 > If you have no clue what I'm talking about when I mention gambits or unit behaviour rules, think of characters in a strategy / role playing game that need to decide what to do next based on rules. The enemy might attack the player or use a healing spell when his hitpoints are below a certain level... that sort of thing.
 
@@ -184,4 +201,19 @@ const compareTargetStatus = (target: Unit, comparison: TargetComparison): boolea
 } 
 ```
 
-As you can see, we have already built a lot of confidence in our code just by defining types. What do we want from the tests now? If we produce an output that does not match our types, the typescript compiler will already catch this. We don't write tests to reach a certain level of code coverage, we will write tests to check in those nooks and corners where typescript can't look. We will check for validation issues with user input, application of filters (like getAvailableTargets()) and complexity levels inside our functions including whether or not certain subfunctions have been called and make sure that edge cases and such are caught correctly. 
+As you can see, we have already built a lot of confidence in our code just by defining types. What do we want from the tests now? If we produce an output that does not match our types, the typescript compiler will already catch this. We don't write tests to reach a certain level of code coverage, we will write tests to check in those nooks and corners where typescript can't look. 
+
+If we were to implement tests for this demo project, we would check for validation issues with user input, application of filters (like getAvailableTargets()) and complexity levels inside our functions including whether or not certain subfunctions have been called and make sure that edge cases and such are caught correctly.
+
+## Conclusion
+My initial point was that using Typescript and Test Driven Design makes you **think differently about the issues at hand**. They force you to think ahead and make a mental model before you start coding.
+
+Is this slower?  
+Yes, to some extent it will be slower, even if we finish the whole project and can start to reap the benefits of our preparation. Unless you are very well accustomed to both TDD and TS, you will need a bit of extra time to plan, figure out types and write tests, **but... !**
+
+If during the development of your project, you realise that you made a planning mistake and need to adjust some parts, allow for an extra case, different data or something, you will soon reap the fruits of your labour. One of the key strengths of Typescript compilers is to point out all the spots you might otherwise miss during refactoring or redesigning parts of your code and having those edge cases tested will make sure you don't miss any of those either, even with the new data structure.
+
+## Moving on
+I will go into more detail about the actual testing of this pet project soon and you can then follow my progress commit by commit.
+
+I've been writing Typescript projects with a lot more confidence and adding tests before code to some of my projects made me think an plan better. I hope I can share this experience with you in the future.
