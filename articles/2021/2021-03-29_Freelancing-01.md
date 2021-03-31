@@ -1,3 +1,17 @@
+---
+tags: Freelancing, SlicesOfWork
+---
+
+<!--
+	title: "Freelancing & Pet Projects - Living The Dream Or Building Castles In The Sky"
+	description: "Working in their 9-5 jobs, many people dream about being independent, breaking out of the daily grind or simply being their own boss. While this is not impossible, it is also incredibly hard and depending on good timing and luck of all sorts."
+	author: "Konrad Abe (AllBitsEqual)"
+	published_at: 2021-03-29 08:00:00
+	header_image: "https://i.imgur.com/BUcmzZA.jpg"
+	categories: "Freelancing, SlicesOfWork"
+	canonical_url: "https://allbitsequal.medium.com/freelancing-pet-projects-living-the-dream-or-building-castles-in-the-sky-d6ea69136c13"
+	language: en
+-->
 # Freelancing & Pet Projects - Living The Dream Or Building Castles In The Sky
 
 Working in their 9-5 jobs, many people dream about being independent, breaking out of the daily grind or simply being their own boss. While this is not impossible, it is also incredibly hard and depending on good timing and luck of all sorts.
@@ -15,9 +29,9 @@ It's not uncommon to see videos and articles boasting about "5 simple steps to f
 
 Keep in mind that we usually only hear about the success stories of the few victorious entrepreneurs that made it and then there are those stories about successful failure like the guy that bankrupted 3 companies before he made it big and founded a multi-million dollars company. 
 
-> You don't see many port mortems about people that did not make it.
+> You don't see many port mortems about people that did not make it as a freelancer.
 
-Most entrepreneurs fail and are never heard about.  Right now, with covid around, this might be an even harsher truth and bitter pill to swallow. Don't expect to have an idea, act on it and then stonks... Big profit. Plan ahead, make backup plans and play the long game.
+Most entrepreneurs and many freelancers fail and are never heard about.  Right now, with covid around, this might be an even harsher truth and bitter pill to swallow. Don't expect to have an idea, act on it and then stonks... Big profit. Plan ahead, make backup plans and play the long game.
 
 No matter whether you want to work freelance as an individual, build the next big indie game or plan to start a new venture or small company... if you run out of time or money, there's no helping it. You need a roof over your head, food in your belly and before you realise it, you are forced back into your office job (cubicle, if you live in the US) and slave away again.
 
@@ -32,7 +46,7 @@ If you start a small business or open a store/shop/cafe, you might even need a s
 This directly ties in with the last point, do not quit your job on a whim and go all-in unless you are absolutely sure about what you are doing. Keep on working and start small. Make sure you have a realistic idea of what's ahead of you before you take the leap.
 
 ## Don't wait too long to do "something"
-There is no reason to not start doing something. Get your research done, start making plans, talk to peers and mentors about your plans and do some networking to meet like-minded people. There are things you need to do in advance to raise your chances of success. Use 
+There is no reason to not start doing something. Get your research done, start making plans, talk to peers and mentors about your plans and do some networking to meet like-minded people. There are things you need to do in advance to raise your chances of success. Use your time of secured and stable income and regular working hours to prepare for your exit. You should already have some hands-on experience when you finally go for it.
 
 ## Don't procrastinate
 I've written about this in a previous article but this point is worth repeating. You probably have to work more to be successful, at least for a while. Starting your freelance career comes with lots of additional hurdles including taxes, insurances, home office stuff, legal stuff, customer acquisition, customer relations/management... The same goes for many other occupations. In most cases what we see online is only the tip of the iceberg of what those successful people do.
@@ -93,11 +107,11 @@ Here are a few very basic examples with no claims of being complete. These are f
 * Do check out [Clients from Hell](https://clientsfromhell.net/)
 * Do maintain open-source code from your own projects and contributions to others' if you can
 * Don't expect that this one well-paying company you currently work for as a regular freelancer will be a stable source of income
-* Don't continuously work for one client exclusively, some countries have laws against that (pretend freelancing)
+* Don't continuously work for one client exclusively, some countries have laws against that (bogus self-employment)
 
 
 ## Wrapping up
-I have worked both freelance and employed as a web developer for many years. Right after starting out in 2008 I started working freelance and had the incredible luck that a company I did a traineeship for agreed to send me all the stuff that went over their own capacities. That way I had a good financial backup that gave me ample time to find other customers and start making a living of it. 
+I have been working both as a freelancer and employed as a web developer for many years. Right after starting out in 2008 I started working freelance and had the incredible luck that a company I did a traineeship for agreed to send me all the stuff that went over their own capacities. That way I had a good financial backup that gave me ample time to find other customers and start making a living of it. 
 
 I switched over to full-time employment when we needed more financial stability (my wife was working freelance as well, which was a bit scary at times), and right now I reduced my office hours to have more time for my family and my writing career.
 
