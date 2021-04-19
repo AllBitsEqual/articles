@@ -8,7 +8,7 @@ tags: React Native, Typescript, React Navigation
 	published_at: 2021-04-12 08:00:00
 	header_image: "https://i.imgur.com/7PSC0Tj.jpg"
 	categories: "react-native typescript react-navigation best-practices series"
-	canonical_url: ""
+	canonical_url: "https://allbitsequal.medium.com/series-react-native-step-by-step-strongly-typed-navigation-with-react-navigation-5-x-a46f2daaf64c"
     series: "React Native (Step by Step)"
 	language: en
 -->
@@ -18,9 +18,9 @@ Last time we added redux to our app. This time we will integrate React Navigatio
 
 With the v5 update, React Navigation got a major overhaul. They split up their old repository into several smaller ones and introduced many breaking changes but the current version is in a very good state right now and worth the effort.
 
-In our example today, I will show you how to set up your basic routes and how to implement navigation actions and conditional navigation. 
+In our example today, I will show you how to set up your basic routes and how to implement navigation actions and conditional navigation and in the follow-up to this part, we will look at a very common authentification flow, nested sub navigations and a few tricks to make your life easier.
 
-In the follow-up to this part, we will look at a very common authentification flow, nested sub navigations and a few tricks to make your life easier.
+As always, you can find a link to the finished code on GitHub at the end of the article.
 
 ![](https://i.imgur.com/7PSC0Tj.jpg)
 
@@ -52,7 +52,7 @@ We will need 4 simple placeholder screens to showcase the navigation. You can si
 ![](https://i.imgur.com/WDmcknP.png)
 
 
-## Defining the basic routes
+## Defining The Basic Routes
 React Navigations can be nested and combined but for our main navigation, the one that will make whole page transitions, we are going to start with a simple stack.
 
 Install the stack library in addition to the ones we grabbed earlier because we're going with a navigation stack for now.
@@ -105,7 +105,7 @@ type ExampleStackParamList = {
 
 ---
 
-## Building our Main Navigation
+## Building Our Main Navigation
 To build our MainNavigation component we are using a NavigationContainer from react navigation and map our Screen components with the navigation routes we defined. After importing our MainStack from './routes' we can use its Navigator and Screen components to organise our different screens/pages.
 
 I'm using the attribute `headerMode="none"` on the Navigator to disable the default topBar header that comes out of the box with the component.
@@ -138,7 +138,7 @@ const MainNavigation = (): React.ReactElement => {
 export default MainNavigation
 ```
 
-## Placing the main navigation
+## Implementing The Main Navigation
 To use the new main navigation we just have to put it in our root project file, the App.tsx and throw out all content other than the redux provider.
 
 ```javascript
@@ -161,7 +161,7 @@ export default function App(): React.ReactElement {
 
 When you restart your app now, everything should work again for a limited amount of "work". What we have right now is one big stack of screens. The user will start on the first screen in the stack, our splash screen, and has no means to navigate around.
 
-## About Navigation patterns
+## About Navigation Patterns
 One of the most common navigation patterns is the so-called AuthFlow, where a different stack is used for the authentication of the user and the navigation of the actual app. I will show you a more complex AuthFlow in my next article but to show you the basics, we will mock a login with redux and use it to explain the principle.
 
 ---
@@ -247,7 +247,7 @@ export default MainNavigation
 
 As you can see, we are now using the selectLogin selector to set our isLoggedIn flag and use it in our Navigator to load a different stack of screens based on the login state. If the user is on the "Splash" screen and triggers a login, he will automatically be switched over to the first screen in the other stack and end up on the "Loading" screen.
 
-## Moving on
+## Moving On
 
 In our SplashScreen.tsx file we can now set up a simple clickable screen that triggers the fake login.
 
@@ -319,7 +319,7 @@ The important thing to note here is that we are basically NOT triggering a navig
 
 As I said, you can read more about this AuthFlow navigation pattern in the next article. Moving on...
 
-## Navigating our routes
+## Navigating Our Routes
 When using React Navigation within our app, all screens that are direct children of the navigator have access to the "navigation" object. Using this with strong typing can be a bit tricky because the type for the navigation prop takes 2 generics, the param list object we defined earlier, and the name of the current route. 
 
 We don't want to rebuild this in every screen component that needs to access the navigation prop so I will add a types.ts file to the routing/ directory and import both the MainRoutes enum and the MainStackParamList that holds all our defined routes and their annotations.
@@ -455,5 +455,7 @@ export default SettingsScreen
 
 ## Wrapping Up
 Today we learned how to annotate both our routes and our navigation prop. 
+
+As promised, here is [the finished code on GitHub at the v3 release tag](https://github.com/AllBitsEqual/expo-ts-starter/releases/tag/v0.3.0).
 
 Next time I will show you two more complex scenarios with react navigation including the useNavigation custom hook and how to trigger navigation events from redux middleware. We will build a better AuthFlow that mimics a real application (including some extra features), we will validate navigation events before they occur and I will show you how to implement a nested navigation to control parts of a page or modal window without moving away from the current screen.
